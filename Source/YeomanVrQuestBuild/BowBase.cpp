@@ -13,6 +13,8 @@ ABowBase::ABowBase()
 	//Bow parts
 	//(We are using 3 meshes for the bow by default as most modern bows are infact in three parts. For single part bows we won't need them. For compound and Xbows we will probably make a seperate class
 	RiserMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("RiserMesh"));
+	RiserMesh->SetupAttachment(BowRoot);
+	RiserMesh->SetRelativeLocation(FVector(0,0,0));
 	UpperLimbMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("UpperLimbMesh"));
 	UpperLimbMesh->SetupAttachment(RiserMesh);
 	LowerLimbMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("LowerLimbMesh"));
