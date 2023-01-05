@@ -1,7 +1,11 @@
 // By OwenAtkinson
 
 #pragma once
-
+/* VR Includes */
+#include "HeadMountedDisplay.h"
+#include "MotionControllerComponent.h"
+////////////
+#include "Camera/CameraComponent.h"
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "VRCharacter.generated.h"
@@ -25,6 +29,25 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+    UPROPERTY(VisibleAnywhere, Category = "Components")
+        UCameraComponent* VRCam;
 
+    /* Component to specify origin for the HMD */
+    UPROPERTY(VisibleAnywhere, Category = "Components")
+        USceneComponent* VROrigin;
+
+    UPROPERTY(EditDefaultsOnly, Category = "VR")
+        bool bPositionalHeadTracking;
+
+    /* Motion Controllers */
+    UPROPERTY(EditDefaultsOnly, Category = "Components")
+        class UMotionControllerComponent* LeftHandController;
+
+    UPROPERTY(EditDefaultsOnly, Category = "Components")
+        class UMotionControllerComponent* RightHandController;
+    UPROPERTY(EditDefaultsOnly, Category = "Components")
+        UStaticMeshComponent* LeftHandMesh;
+    UPROPERTY(EditDefaultsOnly, Category = "Components")
+        UStaticMeshComponent* RightHandMesh;
 
 };

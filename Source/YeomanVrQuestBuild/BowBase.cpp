@@ -8,6 +8,10 @@ ABowBase::ABowBase()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+	BowRoot = CreateDefaultSubobject<USceneComponent>(TEXT("Bow Root"));
+	SetRootComponent(BowRoot);
+	//Bow parts
+	//(We are using 3 meshes for the bow by default as most modern bows are infact in three parts. For single part bows we won't need them. For compound and Xbows we will probably make a seperate class
 	RiserMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("RiserMesh"));
 	UpperLimbMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("UpperLimbMesh"));
 	UpperLimbMesh->SetupAttachment(RiserMesh);
@@ -17,6 +21,10 @@ ABowBase::ABowBase()
 	UpperNock->SetupAttachment(RiserMesh);
 	LowerNock = CreateDefaultSubobject<USceneComponent>(TEXT("LowerNock"));
 	LowerNock->SetupAttachment(RiserMesh);
+	UpperString = CreateDefaultSubobject<USplineMeshComponent>(TEXT("UpperString"));
+	UpperString->SetupAttachment(BowRoot);
+	LowerString = CreateDefaultSubobject<USplineMeshComponent>(TEXT("LowerString"));
+	LowerString->SetupAttachment(BowRoot);
 }
 
 // Called when the game starts or when spawned

@@ -1,7 +1,7 @@
 // By OwenAtkinson
 
 #pragma once
-
+#include "Components/SplineMeshComponent.h"
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "BowBase.generated.h"
@@ -23,6 +23,8 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+		USceneComponent* BowRoot;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 		UStaticMeshComponent* RiserMesh;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 		UStaticMeshComponent* UpperLimbMesh;
@@ -32,5 +34,9 @@ public:
 		USceneComponent* UpperNock;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "String")
 		USceneComponent* LowerNock; 
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "String");
+	USplineMeshComponent* UpperString;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "String");
+	USplineMeshComponent* LowerString;
 
 };
