@@ -5,16 +5,16 @@
 #include "Components/SphereComponent.h"
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "ArrowBase.generated.h"
+#include "ArrowBaseClass.generated.h"
 
 UCLASS()
-class YEOMANVRQUESTBUILD_API AArrowBase : public AActor
+class YEOMANVRQUESTBUILD_API AArrowBaseClass : public AActor
 {
 	GENERATED_BODY()
 	
 public:	
 	// Sets default values for this actor's properties
-	AArrowBase();
+	AArrowBaseClass();
 
 protected:
 	// Called when the game starts or when spawned
@@ -23,10 +23,16 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-	UProperty(VisibleAnywhere, BlueprintReadWrite)
+	UPROPERTY(VisibleAnywhere)
 		UStaticMeshComponent* ArrowMesh;
-	UProperty(VisibleAnywhere, BlueprintReadWrite)
-		USphereComponent* CollisionComp;
-	UProperty(VisibleAnywhere, BlueprintReadWrite)
+	UPROPERTY(VisibleAnywhere)
+		USphereComponent* CollisionComp;// This will be used to detect collision
+	UPROPERTY(VisibleAnywhere)
 		UProjectileMovementComponent* ProjComp;
+
+	//Variables
+	float ArrowSphereRadius = 2.0f;
+	FVector ArrowHeadLocation = { -37.0f,0.0f,0.0f };
+
+
 };
