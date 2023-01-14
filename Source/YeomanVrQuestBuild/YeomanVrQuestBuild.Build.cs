@@ -13,7 +13,9 @@ public class YeomanVrQuestBuild : ModuleRules
 		PrivateDependencyModuleNames.AddRange(new string[] {  });
         /* VR Module */
         PrivateDependencyModuleNames.AddRange(new string[] { "HeadMountedDisplay" });
-
+        //cable stuf
+        PrivateDependencyModuleNames.AddRange(new string[] { "CableComponent" });
+        PrivateIncludePathModuleNames.AddRange(new string[] { "CableComponent" });
         // Uncomment if you are using Slate UI
         // PrivateDependencyModuleNames.AddRange(new string[] { "Slate", "SlateCore" });
 

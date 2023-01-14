@@ -1,6 +1,5 @@
 // By OwenAtkinson
 
-
 #include "BowBase.h"
 
 // Sets default values
@@ -19,21 +18,23 @@ ABowBase::ABowBase()
 	UpperLimbMesh->SetupAttachment(RiserMesh);
 	LowerLimbMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("LowerLimbMesh"));
 	LowerLimbMesh->SetupAttachment(RiserMesh);
-	UpperNock = CreateDefaultSubobject<USceneComponent>(TEXT("UpperNock"));
+	/*UpperNock = CreateDefaultSubobject<USceneComponent>(TEXT("UpperNock"));
 	UpperNock->SetupAttachment(RiserMesh);
 	LowerNock = CreateDefaultSubobject<USceneComponent>(TEXT("LowerNock"));
-	LowerNock->SetupAttachment(RiserMesh);
-	UpperString = CreateDefaultSubobject<USplineMeshComponent>(TEXT("UpperString"));
-	UpperString->SetupAttachment(BowRoot);
-	LowerString = CreateDefaultSubobject<USplineMeshComponent>(TEXT("LowerString"));
-	LowerString->SetupAttachment(BowRoot);
+	LowerNock->SetupAttachment(RiserMesh);*/
+	DrawLocation = CreateDefaultSubobject<USceneComponent>(TEXT("Draw Location"));
+	UpperString = CreateDefaultSubobject<UCableComponent>(TEXT("UpperString"));
+	UpperString->SetupAttachment(RiserMesh);
+	
+	LowerString = CreateDefaultSubobject<UCableComponent>(TEXT("LowerString"));
+	LowerString->SetupAttachment(RiserMesh);
 }
 
 // Called when the game starts or when spawned
 void ABowBase::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	//Setting the intial nock loaction so it knows when to stop on release
 }
 
 // Called every frame

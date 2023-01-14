@@ -1,7 +1,7 @@
 // By OwenAtkinson
 
 #pragma once
-#include "Components/SplineMeshComponent.h"
+#include "CableComponent.h"
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "BowBase.generated.h"
@@ -30,13 +30,17 @@ public:
 		UStaticMeshComponent* UpperLimbMesh;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 		UStaticMeshComponent* LowerLimbMesh;
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "String")
+	/*UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "String")
 		USceneComponent* UpperNock;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "String")
-		USceneComponent* LowerNock; 
+		USceneComponent* LowerNock; */
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "String");
-	USplineMeshComponent* UpperString;
+	class UCableComponent* UpperString;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "String");
-	USplineMeshComponent* LowerString;
+	class UCableComponent* LowerString;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "String");
+	USceneComponent* DrawLocation;// This will be in the middle of the two cables and it is what we will pull on
+
+
 
 };
