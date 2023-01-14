@@ -23,11 +23,13 @@ ABowBase::ABowBase()
 	LowerNock = CreateDefaultSubobject<USceneComponent>(TEXT("LowerNock"));
 	LowerNock->SetupAttachment(RiserMesh);*/
 	DrawLocation = CreateDefaultSubobject<USceneComponent>(TEXT("Draw Location"));
+	DrawLocation->SetupAttachment(BowRoot);
+
 	UpperString = CreateDefaultSubobject<UCableComponent>(TEXT("UpperString"));
-	UpperString->SetupAttachment(RiserMesh);
+	UpperString->SetupAttachment(BowRoot);
 	
 	LowerString = CreateDefaultSubobject<UCableComponent>(TEXT("LowerString"));
-	LowerString->SetupAttachment(RiserMesh);
+	LowerString->SetupAttachment(BowRoot);
 }
 
 // Called when the game starts or when spawned
@@ -35,6 +37,7 @@ void ABowBase::BeginPlay()
 {
 	Super::BeginPlay();
 	//Setting the intial nock loaction so it knows when to stop on release
+	InitialStringLoc = DrawLocation->GetRelativeLocation();
 }
 
 // Called every frame
@@ -42,5 +45,9 @@ void ABowBase::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+}
+
+void ABowBase::ReleaseArrow()
+{
 }
 
