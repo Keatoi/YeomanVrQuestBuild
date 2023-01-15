@@ -46,22 +46,26 @@ public:
 	///ARROW DECLARATIONS//
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Arrow");
 	USceneComponent* ArrowSpawnPoint;// Currently unsure of how to let the player physically place an arrow on the bow so for now it'll spawn when they draw back;
-	UPROPERTY(EditDefaultsOnly, Category = "Arrow Settings")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Arrow Settings")
 		TSubclassOf<AArrowBasic> BasicArrowClass;
 	AArrowBasic* SpawnedArrow;
-	UPROPERTY(EditDefaultsOnly, Category = "Arrow Settings")
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite,Category = "Arrow Settings")
 		float ArrowStartPos;
-	UPROPERTY(EditDefaultsOnly, Category = "Arrow Settings")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Arrow Settings")
 		float ArrowEndPos;
-	UPROPERTY(EditDefaultsOnly, Category = "Arrow Settings")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Arrow Settings")
 		float LastPos;
-	UPROPERTY(EditDefaultsOnly, Category = "Arrow Settings")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Arrow Settings")
 		float MinRelease = 2.0f;//how small the smallest draw we will allow is.
-	UPROPERTY(EditDefaultsOnly, Category = "Arrow Settings")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Arrow Settings")
 		float Force = 15000.0f;//Bows have an incredibly large force output comparable to a .22cal rifle but bigger in size so not as fast. Dodging arrows is doable, can confirm from experience.
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Arrow Settings")
 	bool bUpdatePos;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Arrow Settings")
 	bool bSpawnable;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Arrow Settings")
 	FVector InitialStringLoc;
+	UFUNCTION(BlueprintCallable)
 	void ReleaseArrow();
 
 };
