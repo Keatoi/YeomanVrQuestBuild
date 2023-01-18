@@ -12,8 +12,20 @@ AArrowBasic::AArrowBasic()
 	RootComponent = Root;
 	Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
 	Mesh->SetupAttachment(Root);
+	ArrowSphere = CreateDefaultSubobject<USphereComponent>(TEXT("Arrow Sphere"));
+	ArrowSphere->SetupAttachment(Root);
+	ArrowSphere->SetSphereRadius(SphereRad);
 }
 void AArrowBasic::OnDestroy()
+{
+}
+
+void AArrowBasic::OnHit()
+{
+	//stop physics simulation, not needed anymore.
+}
+
+void AArrowBasic::ReleaseArrow_Implementation(float ForceToApply)
 {
 }
 
