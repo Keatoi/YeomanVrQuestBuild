@@ -24,10 +24,7 @@ void AArrowBasic::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 }
-void AArrowBasic::OnHit()
-{
-	//stop physics simulation, not needed anymore.
-}
+
 
 void AArrowBasic::ReleaseArrow_Implementation(float ForceToApply)
 {
@@ -42,7 +39,5 @@ void AArrowBasic::OnHit()
 	//stop physics simulation, not needed anymore.
 }
 
-void AArrowBasic::ReleaseArrow_Implementation(float ForceToApply)
-{
-}
+
 
