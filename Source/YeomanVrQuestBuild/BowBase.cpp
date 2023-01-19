@@ -30,6 +30,8 @@ ABowBase::ABowBase()
 	
 	LowerString = CreateDefaultSubobject<UCableComponent>(TEXT("LowerString"));
 	LowerString->SetupAttachment(BowRoot);
+	ArrowDetector = CreateDefaultSubobject<USphereComponent>(TEXT("Arrow Detection"));
+	ArrowDetector->SetupAttachment(BowRoot);
 }
 
 // Called when the game starts or when spawned
@@ -38,6 +40,8 @@ void ABowBase::BeginPlay()
 	Super::BeginPlay();
 	//Setting the intial nock loaction so it knows when to stop on release
 	InitialStringLoc = DrawLocation->GetRelativeLocation();
+	ArrowDetector->OnComponentBeginOverlap.AddDynamic(this, &ABowBase::ArrowTrigger);
+	
 }
 
 // Called every frame
@@ -49,5 +53,31 @@ void ABowBase::Tick(float DeltaTime)
 
 void ABowBase::ReleaseArrow()
 {
+	
 }
+
+void ABowBase::ArrowTrigger(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
+	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	//Function check if arow actor is in trigger box, if so attach to DrawLocation scene component
+	if (OtherActor->IsA(AArrowBasic::StaticClass()))
+	{
+		//stop simulating physics and attach to actor
+
+		
+		OtherActor->AttachToComponent(DrawLocation,FAttachmentTransformRules(EAttachmentRule::SnapToTarget, false));
+		if (!bRightHandedRelease)
+		{
+			OtherActor->SetActorRelativeRotation(ArrowOffset * -1);
+			
+		}
+		else
+		{
+			OtherActor->SetActorRelativeRotation(ArrowOffset);
+		}
+		OtherActor->SetActorRelativeLocation(OffsetReadjust);
+	}
+}
+
+
 

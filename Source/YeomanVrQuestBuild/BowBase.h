@@ -2,6 +2,7 @@
 
 
 #pragma once
+#include "Components/SphereComponent.h"
 #include "ArrowBasic.h"
 #include "CableComponent.h"
 #include "CoreMinimal.h"
@@ -32,10 +33,10 @@ public:
 		UStaticMeshComponent* UpperLimbMesh;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 		UStaticMeshComponent* LowerLimbMesh;
-	/*UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "String")
-		USceneComponent* UpperNock;
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "String")
-		USceneComponent* LowerNock; */
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "String");
+	USphereComponent* ArrowDetector;
+	
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "String");
 	class UCableComponent* UpperString;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "String");
@@ -44,10 +45,7 @@ public:
 	USceneComponent* DrawLocation;// This will be in the middle of the two cables and it is what we will pull on
 
 	///ARROW DECLARATIONS//
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Arrow");
-	USceneComponent* ArrowSpawnPoint;// Currently unsure of how to let the player physically place an arrow on the bow so for now it'll spawn when they draw back;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Arrow Settings")
-		TSubclassOf<AArrowBasic> BasicArrowClass;
+	
 	AArrowBasic* SpawnedArrow;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite,Category = "Arrow Settings")
 		float ArrowStartPos;
@@ -65,7 +63,17 @@ public:
 	bool bSpawnable;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Arrow Settings")
 	FVector InitialStringLoc;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Arrow Settings")
+		bool bRightHandedRelease;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Arrow Settings")
+		FRotator ArrowOffset;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Arrow Settings")
+		FVector OffsetReadjust;//Some Bows may need a slight location readjustment after the offset to prevent clipping
 	UFUNCTION(BlueprintCallable)
 	void ReleaseArrow();
+	UFUNCTION(BlueprintCallable)
+		void ArrowTrigger(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
+			UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
 
 };
