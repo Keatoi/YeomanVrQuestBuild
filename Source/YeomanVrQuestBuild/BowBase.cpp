@@ -1,5 +1,5 @@
 // By OwenAtkinson
-
+#include "ArrowBasic.h"
 #include "BowBase.h"
 
 // Sets default values
@@ -48,11 +48,36 @@ void ABowBase::BeginPlay()
 void ABowBase::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
+	
 }
 
-void ABowBase::ReleaseArrow()
+void ABowBase::ReleaseArrow(float SliderPosition)
 {
+	float ForcetoApply = 0.0f;
+	UE_LOG(LogTemp, Warning, TEXT("SliderPosition is: %f"), SliderPosition);
+	if (SpawnedArrow != nullptr)
+	{
+		SpawnedArrow->DetachFromActor(FDetachmentTransformRules(EDetachmentRule::KeepWorld,false));
+		SpawnedArrow->ReleaseArrow_Implementation(Force);
+	}
+	
+}
+
+void ABowBase::SpawnArrow()
+{
+	if (ArrowClass == nullptr) return;//if there isn't an arrow class assigned abort.
+	if (bSpawnable)//Are we allowing arrows to spawn in this bow. Usefule for if we can get the manual arrows working
+	{
+		//if (DrawLocation->GetComponentLocation().X > MinRelease)
+		//{
+		//	//Is the absolute location of the string nock larger than the minimum release value? If yes SpawnArrow and Attach to component.
+		//	SpawnedArrow->GetWorld()->SpawnActor<AArrowBasic>(ArrowClass, DrawLocation->GetComponentTransform());
+		//	SpawnedArrow->AttachToComponent(DrawLocation, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true));
+		//}
+		//Is the absolute location of the string nock larger than the minimum release value? If yes SpawnArrow and Attach to component.
+		SpawnedArrow->GetWorld()->SpawnActor<AArrowBasic>(ArrowClass, DrawLocation->GetComponentTransform());
+		SpawnedArrow->AttachToComponent(DrawLocation, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true));
+	}
 	
 }
 
@@ -75,7 +100,7 @@ void ABowBase::ArrowTrigger(UPrimitiveComponent* OverlappedComp, AActor* OtherAc
 		{
 			OtherActor->SetActorRelativeRotation(ArrowOffset);
 		}
-		OtherActor->SetActorRelativeLocation(OffsetReadjust);
+		
 	}
 }
 

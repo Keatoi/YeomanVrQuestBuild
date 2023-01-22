@@ -47,6 +47,8 @@ public:
 	///ARROW DECLARATIONS//
 	
 	AArrowBasic* SpawnedArrow;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Arrow Settings")
+		TSubclassOf<AArrowBasic> ArrowClass;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite,Category = "Arrow Settings")
 		float ArrowStartPos;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Arrow Settings")
@@ -54,7 +56,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Arrow Settings")
 		float LastPos;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Arrow Settings")
-		float MinRelease = 2.0f;//how small the smallest draw we will allow is.
+		float MinRelease = 20.0f;//how small the smallest draw we will allow is. Only using the x axis so only one value is required.
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Arrow Settings")
 		float Force = 15000.0f;//Bows have an incredibly large force output comparable to a .22cal rifle but bigger in size so not as fast. Dodging arrows is doable, can confirm from experience.
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Arrow Settings")
@@ -70,7 +72,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Arrow Settings")
 		FVector OffsetReadjust;//Some Bows may need a slight location readjustment after the offset to prevent clipping
 	UFUNCTION(BlueprintCallable)
-	void ReleaseArrow();
+	void ReleaseArrow(float SliderPosition);
+	UFUNCTION(BlueprintCallable)
+		void SpawnArrow();
 	UFUNCTION(BlueprintCallable)
 		void ArrowTrigger(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
 			UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);

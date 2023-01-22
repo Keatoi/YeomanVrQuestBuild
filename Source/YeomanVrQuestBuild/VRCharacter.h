@@ -4,6 +4,7 @@
 /* VR Includes */
 #include "HeadMountedDisplay.h"
 #include "MotionControllerComponent.h"
+#include "XRMotionControllerBase.h"
 ////////////
 #include "Camera/CameraComponent.h"
 #include "CoreMinimal.h"
