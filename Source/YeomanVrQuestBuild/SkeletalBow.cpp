@@ -71,7 +71,7 @@ void ASkeletalBow::AttachArrow()
 	if (SpawnedArrow != nullptr)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Arrow is Attaching to string"));
-		SpawnedArrow->AttachToComponent(BowSkeleton, FAttachmentTransformRules(EAttachmentRule::KeepWorld, EAttachmentRule::KeepWorld, EAttachmentRule::KeepWorld, true), FName("StringIdle"));
+		SpawnedArrow->AttachToComponent(BowSkeleton, FAttachmentTransformRules(EAttachmentRule::KeepWorld, EAttachmentRule::KeepWorld, EAttachmentRule::KeepWorld, true), FName("bowStringSocket"));
 		SpawnedArrow->AddActorLocalOffset(ArrowOffset);
 		SpawnedArrow->AddActorLocalRotation(ArrowRot);
 	}
