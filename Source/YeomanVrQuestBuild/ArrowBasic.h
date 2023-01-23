@@ -53,7 +53,8 @@ public:
 	FVector MaximumEndPoint;
 	UFUNCTION()
 		void OnDestroy();
-	void OnHit();//called when collision occurs
+	UFUNCTION()
+		void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
 	void ReleaseArrow_Implementation(float ForceToApply);
 	void ArrowMovement(const FVector& ProjDirection);
 };

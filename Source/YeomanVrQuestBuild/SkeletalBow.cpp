@@ -39,6 +39,7 @@ UObject* ASkeletalBow::SpawnArrow()
 		SpawnParams.Owner = this;
 		SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
 		SpawnedArrow = GetWorld()->SpawnActor<AArrowBasic>(ArrowClass, SkeleTransform);
+		UE_LOG(LogTemp, Warning, TEXT("Arrow is Spawning"));
 		return SpawnedArrow;
 	}
 	else return nullptr;
@@ -73,8 +74,21 @@ void ASkeletalBow::AttachArrow()
 		UE_LOG(LogTemp, Warning, TEXT("Arrow is Attaching to string"));
 		SpawnedArrow->AttachToComponent(BowSkeleton, FAttachmentTransformRules(EAttachmentRule::KeepWorld, EAttachmentRule::KeepWorld, EAttachmentRule::KeepWorld, true), FName("bowStringSocket"));
 		SpawnedArrow->AddActorLocalOffset(ArrowOffset);
-		SpawnedArrow->AddActorLocalRotation(ArrowRot);
+		SpawnedArrow->SetActorRelativeRotation(ArrowRot);
 	}
 	else UE_LOG(LogTemp, Warning, TEXT("Arrow is null"));
+}
+
+void ASkeletalBow::ReleaseArrow(USceneComponent* HandComp,float DrawVal)
+{
+	//this->AttachToComponent(HandComp, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, EAttachmentRule::SnapToTarget, EAttachmentRule::KeepWorld, true), FName("Bow_Grip_Socket"));
+	if (SpawnedArrow != nullptr)
+	{
+		SpawnedArrow->DetachFromActor(FDetachmentTransformRules::KeepWorldTransform);
+		SpawnedArrow->SetActorRotation(HandComp->GetComponentRotation());
+		SpawnedArrow->ReleaseArrow_Implementation(DrawVal);
+		SpawnedArrow = nullptr;
+	}
+	
 }
 

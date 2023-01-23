@@ -1,6 +1,8 @@
 // By OwenAtkinson
 
 #pragma once
+#include "Curves/CurveFloat.h"
+#include "Components/TimelineComponent.h"
 #include "ArrowBasic.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "CoreMinimal.h"
@@ -41,4 +43,9 @@ public:
 		FVector ArrowOffset;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Arrow Settings")
 		FRotator ArrowRot;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		UTimelineComponent* ArrowTimeLine;
+
+	UFUNCTION(BlueprintCallable)
+		void ReleaseArrow(USceneComponent* HandComp, float DrawVal);
 };
