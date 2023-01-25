@@ -43,9 +43,12 @@ public:
 		FVector ArrowOffset;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Arrow Settings")
 		FRotator ArrowRot;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		UTimelineComponent* ArrowTimeLine;
-
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+		USceneComponent* ArrowHelper;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Arrow Settings")
+		int DrawWeight = 45;//Weight of the bow at max draw length in lbs; e.g when measured at 29" my bow has 45lbs of force applied to fingers
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Arrow Settings")
+		float AdditionalWeight = 0; //Some Bows have attachments that can affect the string, such as silencers. Doubtfull if they'll make it into the project but nice to put in just in case.
 	UFUNCTION(BlueprintCallable)
 		void ReleaseArrow(USceneComponent* HandComp, float DrawVal);
 };

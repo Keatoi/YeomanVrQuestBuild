@@ -13,7 +13,8 @@ ASkeletalBow::ASkeletalBow()
 	RootComponent = root;
 	BowSkeleton = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Skeleton"));
 	BowSkeleton->SetupAttachment(RootComponent);
-	
+	ArrowHelper = CreateDefaultSubobject<USceneComponent>(TEXT("Helper"));
+	ArrowHelper->SetRelativeLocation(ArrowOffset);
 }
 
 // Called when the game starts or when spawned
@@ -85,8 +86,9 @@ void ASkeletalBow::ReleaseArrow(USceneComponent* HandComp,float DrawVal)
 	if (SpawnedArrow != nullptr)
 	{
 		SpawnedArrow->DetachFromActor(FDetachmentTransformRules::KeepWorldTransform);
-		SpawnedArrow->SetActorRotation(HandComp->GetComponentRotation());
-		SpawnedArrow->ReleaseArrow_Implementation(DrawVal);
+
+		//SpawnedArrow->SetActorRotation(HandComp->GetComponentRotation()); Was used as a temp fix before I got the arrow to travel in the right vector. Not needed anymore, left in for future reference in case the issue happens with another arrow type
+		SpawnedArrow->ReleaseArrow_Implementation(DrawVal,DrawWeight,AdditionalWeight);
 		SpawnedArrow = nullptr;
 	}
 	

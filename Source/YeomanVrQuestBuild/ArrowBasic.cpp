@@ -16,11 +16,12 @@ AArrowBasic::AArrowBasic()
 	Mesh->SetupAttachment(Root);
 	Mesh->SetRelativeLocation(FVector{ 32,0,0 });
 	Mesh->SetRelativeRotation(FRotator{180,0,0});
+	Mesh->SetNotifyRigidBodyCollision(true);
 	ArrowSphere = CreateDefaultSubobject<USphereComponent>(TEXT("Arrow Sphere"));
 	ArrowSphere->SetupAttachment(Root);
 	ArrowSphere->SetSphereRadius(SphereRad);
 	ArrowSphere->SetRelativeLocation(FVector{ 68,0,0 });
-	ArrowSphere->OnComponentHit.AddDynamic(this, &AArrowBasic::OnHit);
+	
 	if (!ProjMovement)
 	{
 		ProjMovement = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("MovementComponent"));
@@ -28,17 +29,27 @@ AArrowBasic::AArrowBasic()
 		
 		ProjMovement->bRotationFollowsVelocity = true;
 		ProjMovement->bAutoActivate = true;
-		ProjMovement->Velocity = { 0,0,0 };
+		ProjMovement->Velocity = Velo;
 		bEnableMovement = false;
 	}
 
 }
+void AArrowBasic::BeginPlay()
+{
+	Super::BeginPlay();
+	OnActorHit.AddDynamic(this, &AArrowBasic::OnHit);
+}
 void AArrowBasic::OnDestroy()
 {
 }
-void AArrowBasic::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
+void AArrowBasic::OnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpulse,
+	const FHitResult& Hit)
 {
 	//when it hits another actor, add some impulse force and attach to the hit component
+	
+	UE_LOG(LogTemp, Warning, TEXT("Hit"));
+	
+	
 }
 void AArrowBasic::Tick(float DeltaTime)
 {
@@ -49,16 +60,23 @@ void AArrowBasic::Tick(float DeltaTime)
 }
 
 
-void AArrowBasic::ReleaseArrow_Implementation(float ForceToApply)
+void AArrowBasic::ReleaseArrow_Implementation(float DrawLength, int DrawWeight, float AdditionalWeight)
 {
 	//Detach Actor from any thing it is attached to, then set it's location.
 	//DetachFromActor(FDetachmentTransformRules(EDetachmentRule::KeepRelative, false));
 	UE_LOG(LogTemp, Warning, TEXT("Called Arrow Imp"));
 	
 	//ProjMovement->Activate();
-	UE_LOG(LogTemp, Warning, TEXT("Draw Val is : %f"), ForceToApply);
-	NewVelo = (this->GetActorForwardVector() * ForceToApply);
-	ProjMovement->Velocity = NewVelo /** UGameplayStatics::GetWorldDeltaSeconds(this)*/;
+	UE_LOG(LogTemp, Warning, TEXT("Draw Val is : %f"), DrawLength);
+	//Calculating the velocity of the arrow. This uses the equation v = IBO + (L-30) * 10 - W/3 + min(0,-(A-5D/3).
+	//We will also calculate Momentum and impulse force for possible future use
+	//Velo = (this->GetActorForwardVector() * DrawLength);//Testing velo
+	float ArrowSpeed = -(AW - (5.0f * DrawWeight)) / 3.0f;//IBO + (DrawLength - 30) * 10 - AdditionalWeight / 3 + std::min(0, -(AW - (5 * DrawWeight) / 3));
+	UE_LOG(LogTemp, Warning, TEXT("ArrowSpeed is : %f"), ArrowSpeed);
+	Velo = (this->GetActorForwardVector() * DrawLength);//Backup in case I can't get the speed method to work coreectly
+	UE_LOG(LogTemp, Warning, TEXT("Velo is : %s"), *Velo.ToString());
+	ProjMovement->Velocity = Velo/* * UGameplayStatics::GetWorldDeltaSeconds(this)*/;
+	ProjMovement->ProjectileGravityScale = GravScale;
 }
 
 

@@ -21,7 +21,7 @@ public:
 
 protected:
 	//// Called when the game starts or when spawned
-	//virtual void BeginPlay() override;
+	virtual void BeginPlay() override;
 
 public:	
 	//// Called every frame
@@ -47,14 +47,24 @@ public:
 	float SphereRad = 4.0f;
 	FTimerHandle ArrowTH;
 	float MaxSpeed = 100.0f;
-	FVector NewVelo = { 40.0, 0.0, 0.0 };
-	float Range = 150.0f;
-	FVector ReleaseLocation;
-	FVector MaximumEndPoint;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+	FVector Velo = { 0.0, 0.0, 0.0 };
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+		float GravScale = 1.0f;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Arrow Settings")
+		int IBO = 150; //Bow arrow speed in ft/s according to manufacturer specification. We'll just use a generic value that can be changed between arrow types based on their closest irl equivalents
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Arrow Settings")
+		float AW = 200.0f;//arrow weight in grains. A grain is based upon the ideal weight of a grain of cereal according to a man born in the bronze age. Downfall of basing a project on one of the oldest sports in history. For reference one grain == 6.4799e-5 kg.
+	//A Military Longbow arrow has roughly betweeen 500 and 1500 grain weight for a 60 to 200lb bow,(International Longbow Archers Association,n.d)[shorturl.at/aijP3] Most modern archers max out at 40-50 lbs so we'll go with 420 as a guesstimate of a modern day avg arrow weight.
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Arrow Settings")
+		float p;// Momentum. 
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Arrow Settings")
+		FVector Impulse;//Impulse energy generated on contact
 	UFUNCTION()
 		void OnDestroy();
 	UFUNCTION()
-		void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
-	void ReleaseArrow_Implementation(float ForceToApply);
+		void OnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpulse,
+			const FHitResult& Hit);
+	void ReleaseArrow_Implementation(float DrawLength,int DrawWeight, float AdditionalWeight);
 	void ArrowMovement(const FVector& ProjDirection);
 };

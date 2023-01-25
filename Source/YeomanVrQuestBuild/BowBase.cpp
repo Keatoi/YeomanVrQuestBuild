@@ -58,7 +58,7 @@ void ABowBase::ReleaseArrow(float SliderPosition)
 	if (SpawnedArrow != nullptr)
 	{
 		SpawnedArrow->DetachFromActor(FDetachmentTransformRules(EDetachmentRule::KeepWorld,false));
-		SpawnedArrow->ReleaseArrow_Implementation(Force);
+		SpawnedArrow->ReleaseArrow_Implementation(Force,Force,Force);
 	}
 	
 }
