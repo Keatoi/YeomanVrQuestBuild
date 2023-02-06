@@ -49,6 +49,8 @@ public:
 		int DrawWeight = 45;//Weight of the bow at max draw length in lbs; e.g when measured at 29" my bow has 45lbs of force applied to fingers
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Arrow Settings")
 		float AdditionalWeight = 0; //Some Bows have attachments that can affect the string, such as silencers. Doubtfull if they'll make it into the project but nice to put in just in case.
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Arrow Settings")
+		float DrawLength;
 	UFUNCTION(BlueprintCallable)
 		void ReleaseArrow(USceneComponent* HandComp, float DrawVal);
 };

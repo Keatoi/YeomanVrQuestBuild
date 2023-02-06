@@ -60,8 +60,7 @@ public:
 		float p;// Momentum. 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Arrow Settings")
 		FVector Impulse;//Impulse energy generated on contact
-	UFUNCTION()
-		void OnDestroy();
+	
 	UFUNCTION()
 		void OnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpulse,
 			const FHitResult& Hit);

@@ -1,4 +1,5 @@
 // By OwenAtkinson
+#include "SkeletalBow.h"
 #include "Kismet/GameplayStatics.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "ArrowBasic.h"
@@ -39,16 +40,18 @@ void AArrowBasic::BeginPlay()
 	Super::BeginPlay();
 	OnActorHit.AddDynamic(this, &AArrowBasic::OnHit);
 }
-void AArrowBasic::OnDestroy()
-{
-}
+
 void AArrowBasic::OnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpulse,
 	const FHitResult& Hit)
 {
 	//when it hits another actor, add some impulse force and attach to the hit component
-	
-	UE_LOG(LogTemp, Warning, TEXT("Hit"));
-	
+	if (!OtherActor->IsA(ASkeletalBow::StaticClass()))//if not a bow do stuff.
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Hit"));
+		ProjMovement->Velocity = FVector::ZeroVector;//Stop the projectile.
+		SelfActor->AttachToActor(OtherActor, FAttachmentTransformRules(EAttachmentRule::KeepWorld, EAttachmentRule::KeepWorld, EAttachmentRule::KeepWorld, true));//Attach it to the hit actor
+		SelfActor->AddActorLocalOffset(FVector(FMath::FRandRange(1.0f, 8.0f), 0.0, 0.0));//Sinks the arrow into the target by a random amount to simulate the target being used before.
+	}
 	
 }
 void AArrowBasic::Tick(float DeltaTime)
@@ -62,21 +65,20 @@ void AArrowBasic::Tick(float DeltaTime)
 
 void AArrowBasic::ReleaseArrow_Implementation(float DrawLength, int DrawWeight, float AdditionalWeight)
 {
-	//Detach Actor from any thing it is attached to, then set it's location.
-	//DetachFromActor(FDetachmentTransformRules(EDetachmentRule::KeepRelative, false));
+	
 	UE_LOG(LogTemp, Warning, TEXT("Called Arrow Imp"));
 	
 	//ProjMovement->Activate();
 	UE_LOG(LogTemp, Warning, TEXT("Draw Val is : %f"), DrawLength);
 	//Calculating the velocity of the arrow. This uses the equation v = IBO + (L-30) * 10 - W/3 + min(0,-(A-5D/3).
-	//We will also calculate Momentum and impulse force for possible future use
-	//Velo = (this->GetActorForwardVector() * DrawLength);//Testing velo
-	float ArrowSpeed = -(AW - (5.0f * DrawWeight)) / 3.0f;//IBO + (DrawLength - 30) * 10 - AdditionalWeight / 3 + std::min(0, -(AW - (5 * DrawWeight) / 3));
-	UE_LOG(LogTemp, Warning, TEXT("ArrowSpeed is : %f"), ArrowSpeed);
-	Velo = (this->GetActorForwardVector() * DrawLength);//Backup in case I can't get the speed method to work coreectly
+	
+	//IBO + (DrawLength - 30) * 10 - AdditionalWeight / 3 + std::min(0, -(AW - (5 * DrawWeight) / 3));
+	
+	Velo = (this->GetActorForwardVector() * DrawLength);
 	UE_LOG(LogTemp, Warning, TEXT("Velo is : %s"), *Velo.ToString());
 	ProjMovement->Velocity = Velo/* * UGameplayStatics::GetWorldDeltaSeconds(this)*/;
 	ProjMovement->ProjectileGravityScale = GravScale;
+	this->SetLifeSpan(Delay);//Destroy the actor after a delat to stop arrow buildup causing performance issues.
 }
 
 
