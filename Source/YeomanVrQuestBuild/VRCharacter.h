@@ -50,5 +50,25 @@ public:
         UStaticMeshComponent* LeftHandMesh;
     UPROPERTY(EditDefaultsOnly, Category = "Components")
         UStaticMeshComponent* RightHandMesh;
+    UFUNCTION()
+        void Strafe(float Value);
+    UFUNCTION()
+        void MoveForwards(float Value);
+    UFUNCTION()
+        void Turn(float Value);
+    UFUNCTION()
+        void SnapToggle();
+    UPROPERTY(EditDefaultsOnly, Category = "Movement")
+        float MovementDeadzone = 0.25f;
+    UPROPERTY(EditDefaultsOnly, Category = "Movement")
+        float MovementSpeed = 0.5f;
+    UPROPERTY(EditDefaultsOnly, Category = "Movement")
+        float RotationSpeed = 0.5f;
+    UPROPERTY(EditDefaultsOnly, Category = "Movement")
+        bool bIsUsingSnapTurn = false;
+    UPROPERTY(EditDefaultsOnly, Category = "Movement")
+        float RotationAngle = 45.0f;
+
+
 
 };

@@ -1,7 +1,8 @@
 // By OwenAtkinson
 
 #pragma once
-
+#include "Kismet/GameplayStatics.h"
+#include "YeomanVrQuestBuildGameModeBase.h"
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "SevenSpotTarget.generated.h"
@@ -36,4 +37,9 @@ public:
 		UStaticMeshComponent* InnerBlueMesh;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 		UStaticMeshComponent* OuterBlueMesh;
+	UPROPERTY()
+		AYeomanVrQuestBuildGameModeBase* GameModeRef;
+	UFUNCTION()
+		void OnTargetHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpulse,
+			const FHitResult& Hit);
 };

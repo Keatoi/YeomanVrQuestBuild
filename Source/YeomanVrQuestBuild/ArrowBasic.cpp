@@ -47,7 +47,7 @@ void AArrowBasic::OnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImp
 	//when it hits another actor, add some impulse force and attach to the hit component
 	if (!OtherActor->IsA(ASkeletalBow::StaticClass()))//if not a bow do stuff.
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Hit"));
+		
 		ProjMovement->Velocity = FVector::ZeroVector;//Stop the projectile.
 		SelfActor->AttachToActor(OtherActor, FAttachmentTransformRules(EAttachmentRule::KeepWorld, EAttachmentRule::KeepWorld, EAttachmentRule::KeepWorld, true));//Attach it to the hit actor
 		SelfActor->AddActorLocalOffset(FVector(FMath::FRandRange(1.0f, 8.0f), 0.0, 0.0));//Sinks the arrow into the target by a random amount to simulate the target being used before.

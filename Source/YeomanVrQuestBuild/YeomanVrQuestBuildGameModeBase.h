@@ -34,9 +34,21 @@ public:
 	UPROPERTY(BlueprintReadWrite)
 		int EndCount;
 	UPROPERTY(BlueprintReadWrite)
+		int ArrowCount;
+	UPROPERTY(BlueprintReadWrite)
 		int scoreTotal;
+	UPROPERTY(BlueprintReadWrite)
+		int RoundTotal;
+	UPROPERTY(BlueprintReadWrite)
+		int RunningTotal;
+	UPROPERTY(BlueprintReadWrite)
+		int ArrowAvg;
 	UPROPERTY(BlueprintReadWrite)
 		int EndScore;
 	UFUNCTION(BlueprintCallable)
 		void AddScore();
+	UFUNCTION(BlueprintCallable)
+		void UpdateEnds();
+	UFUNCTION(BlueprintCallable)
+		void Reset();//Resets score arrow count etc. to zero
 };
