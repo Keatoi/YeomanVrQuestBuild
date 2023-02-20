@@ -22,6 +22,8 @@ AArrowBasic::AArrowBasic()
 	ArrowSphere->SetupAttachment(Root);
 	ArrowSphere->SetSphereRadius(SphereRad);
 	ArrowSphere->SetRelativeLocation(FVector{ 68,0,0 });
+	IdleMaterial = CreateDefaultSubobject<UMaterial>(TEXT("IdleMaterial"));
+	MovementMaterial = CreateDefaultSubobject<UMaterial>(TEXT("MovementMaterial"));
 	
 	if (!ProjMovement)
 	{
@@ -39,6 +41,7 @@ void AArrowBasic::BeginPlay()
 {
 	Super::BeginPlay();
 	OnActorHit.AddDynamic(this, &AArrowBasic::OnHit);
+	Mesh->SetMaterial(0, IdleMaterial);
 }
 
 void AArrowBasic::OnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpulse,
@@ -51,6 +54,7 @@ void AArrowBasic::OnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImp
 		ProjMovement->Velocity = FVector::ZeroVector;//Stop the projectile.
 		SelfActor->AttachToActor(OtherActor, FAttachmentTransformRules(EAttachmentRule::KeepWorld, EAttachmentRule::KeepWorld, EAttachmentRule::KeepWorld, true));//Attach it to the hit actor
 		SelfActor->AddActorLocalOffset(FVector(FMath::FRandRange(1.0f, 8.0f), 0.0, 0.0));//Sinks the arrow into the target by a random amount to simulate the target being used before.
+		Mesh->SetMaterial(0, IdleMaterial);
 	}
 	
 }
@@ -76,8 +80,12 @@ void AArrowBasic::ReleaseArrow_Implementation(float DrawLength, int DrawWeight, 
 	
 	Velo = (this->GetActorForwardVector() * DrawLength);
 	UE_LOG(LogTemp, Warning, TEXT("Velo is : %s"), *Velo.ToString());
+	//adding a small amount of randomness to the y and Z axis of the velocity vector should simulate the arrow flexing in flight which causes slight deviation. This is why its rare for an arrow to hit another arrow, even with modern equipment
+	Velo.Y = Velo.Y + FMath::FRandRange(-3.0f, 3.0f);
+	Velo.Z = Velo.Z + FMath::FRandRange(-3.0f, 3.0f);
 	ProjMovement->Velocity = Velo/* * UGameplayStatics::GetWorldDeltaSeconds(this)*/;
 	ProjMovement->ProjectileGravityScale = GravScale;
+	Mesh->SetMaterial(0, MovementMaterial);
 	this->SetLifeSpan(Delay);//Destroy the actor after a delat to stop arrow buildup causing performance issues.
 }
 

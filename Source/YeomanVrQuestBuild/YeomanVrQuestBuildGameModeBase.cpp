@@ -8,40 +8,40 @@ void AYeomanVrQuestBuildGameModeBase::AddScore()
 	
 	switch (scoreVariable)
 	{
-	case(Hit_X):
+	case(EScore::Hit_X):
 		scoreTotal += 10;
 		break;
-	case(Hit_10):
+	case(EScore::Hit_10):
 		scoreTotal += 10;
 		break;
-	case(Hit_9):
+	case(EScore::Hit_9):
 		scoreTotal += 9;
 		break;
-	case(Hit_8):
+	case(EScore::Hit_8):
 		scoreTotal += 8;
 		break;
-	case(Hit_7):
+	case(EScore::Hit_7):
 		scoreTotal += 7;
 		break;
-	case(Hit_6):
+	case(EScore::Hit_6):
 		scoreTotal += 6;
 		break;
-	case(Hit_5):
+	case(EScore::Hit_5):
 		scoreTotal += 5;
 		break;
-	case(Hit_4):
+	case(EScore::Hit_4):
 		scoreTotal += 4;
 		break;
-	case(Hit_3):
+	case(EScore::Hit_3):
 		scoreTotal += 3;
 		break;
-	case(Hit_2):
+	case(EScore::Hit_2):
 		scoreTotal += 2;
 		break;
-	case(Hit_1):
+	case(EScore::Hit_1):
 		scoreTotal += 1;
 		break;
-	case(Hit_Miss):
+	case(EScore::Hit_Miss):
 		
 		break;
 	}
@@ -52,7 +52,7 @@ void AYeomanVrQuestBuildGameModeBase::AddScore()
 
 void AYeomanVrQuestBuildGameModeBase::UpdateEnds()
 {
-
+	//not yet implemented
 }
 
 void AYeomanVrQuestBuildGameModeBase::Reset()
@@ -60,4 +60,19 @@ void AYeomanVrQuestBuildGameModeBase::Reset()
 	scoreTotal = 0;
 	ArrowAvg = 0;
 	ArrowCount = 0;
+}
+
+void AYeomanVrQuestBuildGameModeBase::WindRotation()
+{
+	if (bWindEnabled)
+	{
+		int RandInt = FMath::RandRange(0, 3);
+		RandWindDirection = StaticCast<EWind>(RandInt);
+		
+	}
+	else 
+	{
+		return;
+	}
+	
 }

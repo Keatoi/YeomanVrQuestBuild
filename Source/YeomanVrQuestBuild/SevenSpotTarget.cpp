@@ -51,51 +51,52 @@ void ASevenSpotTarget::OnTargetHit(AActor* SelfActor, AActor* OtherActor, FVecto
 	{
 		//Originally wanted this to be a switch statement but couldn't get it to work so it'll be a series of elifs until I can figure out a more efficient way
 		UE_LOG(LogTemp, Warning, TEXT("Bull Hit"));
-		GameModeRef->scoreVariable = Hit_X;
+		GameModeRef->scoreVariable = EScore::Hit_X;
 	}
 	else if (HitComponent == InnerGoldMesh)
 	{
 		//Originally wanted this to be a switch statement but couldn't get it to work so it'll be a series of elifs until I can figure out a more efficient way
 		UE_LOG(LogTemp, Warning, TEXT("IGold Hit"));
-		GameModeRef->scoreVariable = Hit_10;
+		GameModeRef->scoreVariable = EScore::Hit_10;
 
 	}
 	else if (HitComponent == OuterGoldMesh)
 	{
 		//Originally wanted this to be a switch statement but couldn't get it to work so it'll be a series of elifs until I can figure out a more efficient way
 		UE_LOG(LogTemp, Warning, TEXT("OGold Hit"));
-		GameModeRef->scoreVariable = Hit_9;
+		GameModeRef->scoreVariable = EScore::Hit_9;
 
 	}
 	else if (HitComponent == InnerRedMesh)
 	{
 		//Originally wanted this to be a switch statement but couldn't get it to work so it'll be a series of elifs until I can figure out a more efficient way
 		UE_LOG(LogTemp, Warning, TEXT("Ired Hit"));
-		GameModeRef->scoreVariable = Hit_8;
+		GameModeRef->scoreVariable = EScore::Hit_8;
 
 	}
 	else if (HitComponent == OuterRedMesh)
 	{
 		//Originally wanted this to be a switch statement but couldn't get it to work so it'll be a series of elifs until I can figure out a more efficient way
 		UE_LOG(LogTemp, Warning, TEXT("ORedl Hit"));
-		GameModeRef->scoreVariable = Hit_7;
+		GameModeRef->scoreVariable = EScore::Hit_7;
 
 	}
 	else if (HitComponent == InnerBlueMesh)
 	{
 		//Originally wanted this to be a switch statement but couldn't get it to work so it'll be a series of elifs until I can figure out a more efficient way
 		UE_LOG(LogTemp, Warning, TEXT("IBlue Hit"));
-		GameModeRef->scoreVariable = Hit_6;
+		GameModeRef->scoreVariable = EScore::Hit_6;
 
 	}
 	else if (HitComponent == OuterBlueMesh)
 	{
 		//Originally wanted this to be a switch statement but couldn't get it to work so it'll be a series of elifs until I can figure out a more efficient way
 		UE_LOG(LogTemp, Warning, TEXT("OBlue Hit"));
-		GameModeRef->scoreVariable = Hit_5;
+		GameModeRef->scoreVariable = EScore::Hit_5;
 
 	}
 	GameModeRef->AddScore();
+	
 	
 }
 

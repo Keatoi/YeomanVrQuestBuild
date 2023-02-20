@@ -1,6 +1,7 @@
 // By OwenAtkinson
 
 #pragma once
+#include "ArrowBasic.h"
 #include "Kismet/GameplayStatics.h"
 #include "YeomanVrQuestBuildGameModeBase.h"
 #include "CoreMinimal.h"

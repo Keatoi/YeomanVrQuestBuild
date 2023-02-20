@@ -30,18 +30,18 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-    UPROPERTY(VisibleAnywhere, Category = "Components")
-        UCameraComponent* VRCam;
+    UPROPERTY(EditAnywhere, Category = "Components")
+        UCameraComponent* HMDCamera;
 
     /* Component to specify origin for the HMD */
-    UPROPERTY(VisibleAnywhere, Category = "Components")
+    UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
         USceneComponent* VROrigin;
 
     UPROPERTY(EditDefaultsOnly, Category = "VR")
         bool bPositionalHeadTracking;
 
     /* Motion Controllers */
-    UPROPERTY(EditDefaultsOnly, Category = "Components")
+   /* UPROPERTY(EditDefaultsOnly, Category = "Components")
         class UMotionControllerComponent* LeftHandController;
 
     UPROPERTY(EditDefaultsOnly, Category = "Components")
@@ -49,7 +49,7 @@ public:
     UPROPERTY(EditDefaultsOnly, Category = "Components")
         UStaticMeshComponent* LeftHandMesh;
     UPROPERTY(EditDefaultsOnly, Category = "Components")
-        UStaticMeshComponent* RightHandMesh;
+        UStaticMeshComponent* RightHandMesh;*/
     UFUNCTION()
         void Strafe(float Value);
     UFUNCTION()

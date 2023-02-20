@@ -6,21 +6,29 @@
 #include "GameFramework/GameModeBase.h"
 #include "YeomanVrQuestBuildGameModeBase.generated.h"
 
-UENUM()
-enum EScore
+UENUM(BlueprintType)
+enum class EScore :uint8
 {
-	Hit_X,//For spiders i.e the very center of the bull. counts as a ten but is displayed as an X on official score sheets
-	Hit_10,
-	Hit_9,
-	Hit_8,
-	Hit_7,
-	Hit_6,
-	Hit_5,
-	Hit_4,
-	Hit_3,
-	Hit_2,
-	Hit_1,
-	Hit_Miss,
+	Hit_X = 0 UMETA(DisplayName = "X"),//For spiders i.e the very center of the bull. counts as a ten but is displayed as an X on official score sheets
+	Hit_10 UMETA(DisplayName = "10"),
+	Hit_9 UMETA(DisplayName = "9"),
+	Hit_8 UMETA(DisplayName = "8"),
+	Hit_7 UMETA(DisplayName = "7"),
+	Hit_6 UMETA(DisplayName = "6"),
+	Hit_5 UMETA(DisplayName = "5"),
+	Hit_4 UMETA(DisplayName = "4"),
+	Hit_3 UMETA(DisplayName = "3"),
+	Hit_2 UMETA(DisplayName = "2"),
+	Hit_1 UMETA(DisplayName = "1"),
+	Hit_Miss UMETA(DisplayName = "M"),
+};
+UENUM(BlueprintType)
+enum class EWind :uint8
+{
+	W_North = 0 UMETA(DisplayName = "North"),
+	W_West UMETA(DisplayName = "West"),
+	W_South UMETA(DisplayName = "East"),
+	W_East UMETA(DisplayName = "South"),
 };
 
 	
@@ -28,27 +36,37 @@ UCLASS()
 class YEOMANVRQUESTBUILD_API AYeomanVrQuestBuildGameModeBase : public AGameModeBase
 {
 	GENERATED_BODY()
+protected:
+	FTimerHandle WindTimer;
+	
 public:
 	UPROPERTY(BlueprintReadWrite)
-		TEnumAsByte<EScore> scoreVariable;
+		EScore scoreVariable;
 	UPROPERTY(BlueprintReadWrite)
-		int EndCount;
+		int EndCount = 0;
 	UPROPERTY(BlueprintReadWrite)
-		int ArrowCount;
+		int ArrowCount = 0;
 	UPROPERTY(BlueprintReadWrite)
-		int scoreTotal;
+		int scoreTotal = 0;
 	UPROPERTY(BlueprintReadWrite)
-		int RoundTotal;
+		int RoundTotal = 0;
 	UPROPERTY(BlueprintReadWrite)
-		int RunningTotal;
+		int RunningTotal = 0;
 	UPROPERTY(BlueprintReadWrite)
-		int ArrowAvg;
+		int ArrowAvg = 0;
 	UPROPERTY(BlueprintReadWrite)
-		int EndScore;
+		int EndScore = 0;
+	UPROPERTY(BlueprintReadWrite, Category = "Enviroment")
+		bool bWindEnabled = false;
+	UPROPERTY(BlueprintReadWrite, Category = "Enviroment")
+		EWind RandWindDirection;
 	UFUNCTION(BlueprintCallable)
 		void AddScore();
 	UFUNCTION(BlueprintCallable)
 		void UpdateEnds();
 	UFUNCTION(BlueprintCallable)
 		void Reset();//Resets score arrow count etc. to zero
+	UFUNCTION(BlueprintCallable)
+		void WindRotation();//Changes wind direction after timer update
+	
 };

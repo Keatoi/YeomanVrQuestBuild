@@ -9,8 +9,8 @@ AVRCharacter::AVRCharacter()
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	
-	VRCam = CreateDefaultSubobject<UCameraComponent>(TEXT("VRCam"));
-	
+	HMDCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("HMD"));
+	HMDCamera->SetupAttachment(RootComponent);
 
 	//MotionControllers
 	/*LeftHandController = CreateDefaultSubobject<UMotionControllerComponent>(TEXT("Left Hand"));
@@ -52,8 +52,9 @@ void AVRCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 
 void AVRCharacter::Strafe(float Value)
 {
+	UE_LOG(LogTemp, Warning, TEXT("Called Strafe"));
 	float MovementScale = Value * MovementSpeed;
-	FVector VRDirection = VRCam->GetRightVector();
+	FVector VRDirection = HMDCamera->GetRightVector();
 	if (abs(Value) > MovementDeadzone)
 	{
 		//if the absolute value of the axis input is greater than the deadzone then move. This means the pawn should not move unless the joystick is at least a 1/4 of the way pressed in a direction. This
@@ -64,8 +65,9 @@ void AVRCharacter::Strafe(float Value)
 
 void AVRCharacter::MoveForwards(float Value)
 {
+	UE_LOG(LogTemp, Warning, TEXT("Called FWD"));
 	float MovementScale = Value * MovementSpeed;
-	FVector VRDirection = VRCam->GetForwardVector();
+	FVector VRDirection = HMDCamera->GetForwardVector();
 	if (abs(Value) > MovementDeadzone)
 	{
 		
