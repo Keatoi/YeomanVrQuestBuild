@@ -40,16 +40,7 @@ public:
     UPROPERTY(EditDefaultsOnly, Category = "VR")
         bool bPositionalHeadTracking;
 
-    /* Motion Controllers */
-   /* UPROPERTY(EditDefaultsOnly, Category = "Components")
-        class UMotionControllerComponent* LeftHandController;
-
-    UPROPERTY(EditDefaultsOnly, Category = "Components")
-        class UMotionControllerComponent* RightHandController;
-    UPROPERTY(EditDefaultsOnly, Category = "Components")
-        UStaticMeshComponent* LeftHandMesh;
-    UPROPERTY(EditDefaultsOnly, Category = "Components")
-        UStaticMeshComponent* RightHandMesh;*/
+    
     UFUNCTION()
         void Strafe(float Value);
     UFUNCTION()
@@ -58,6 +49,11 @@ public:
         void Turn(float Value);
     UFUNCTION()
         void SnapToggle();
+    UFUNCTION()
+        FVector TeleportTrace();
+    UFUNCTION()
+        void SimpleTeleport();
+
     UPROPERTY(EditDefaultsOnly, Category = "Movement")
         float MovementDeadzone = 0.25f;
     UPROPERTY(EditDefaultsOnly, Category = "Movement")

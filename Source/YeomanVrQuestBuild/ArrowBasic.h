@@ -38,9 +38,9 @@ public:
 		USphereComponent* ArrowSphere;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 		UBoxComponent* ArrowBowTrigger;
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		UMaterial* IdleMaterial;
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		UMaterial* MovementMaterial;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 		float Delay = 10.0f;//arrow kills itself after being released, perhaps due to not wanting to allow the player to pick them up, perhaps due to loneliness, perhaps due to performance reasons who knows.

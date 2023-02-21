@@ -38,6 +38,14 @@ public:
 		UStaticMeshComponent* InnerBlueMesh;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 		UStaticMeshComponent* OuterBlueMesh;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+		UStaticMeshComponent* InnerBlackMesh;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+		UStaticMeshComponent* OuterBlackMesh;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+		UStaticMeshComponent* InnerWhiteMesh;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+		UStaticMeshComponent* OuterWhiteMesh;
 	UPROPERTY()
 		AYeomanVrQuestBuildGameModeBase* GameModeRef;
 	UFUNCTION()

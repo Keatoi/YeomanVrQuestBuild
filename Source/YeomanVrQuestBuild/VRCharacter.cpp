@@ -11,18 +11,9 @@ AVRCharacter::AVRCharacter()
 	
 	HMDCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("HMD"));
 	HMDCamera->SetupAttachment(RootComponent);
+	//HMDCamera->bUsePawnControlRotation = true; This had unintended weirdness with the motion controllers so is commented out
 
-	//MotionControllers
-	/*LeftHandController = CreateDefaultSubobject<UMotionControllerComponent>(TEXT("Left Hand"));
-	LeftHandController->AttachParent = VROrigin;
-	LeftHandController->Hand = EControllerHand::Left;
-	LeftHandMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Left Hand Mesh"));
-	LeftHandMesh->AttachParent = LeftHandController;
-	RightHandController = CreateDefaultSubobject<UMotionControllerComponent>(TEXT("Right Hand"));
-	RightHandController->AttachParent = VROrigin;
-	RightHandController->Hand = EControllerHand::Right;
-	RightHandMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Right Hand Mesh"));
-	RightHandMesh->AttachParent = RightHandController;*/
+
 }
 
 // Called when the game starts or when spawned
@@ -52,12 +43,12 @@ void AVRCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 
 void AVRCharacter::Strafe(float Value)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Called Strafe"));
+	//UE_LOG(LogTemp, Warning, TEXT("Called Strafe"));
 	float MovementScale = Value * MovementSpeed;
 	FVector VRDirection = HMDCamera->GetRightVector();
 	if (abs(Value) > MovementDeadzone)
 	{
-		//if the absolute value of the axis input is greater than the deadzone then move. This means the pawn should not move unless the joystick is at least a 1/4 of the way pressed in a direction. This
+		//if the absolute value of the axis input is greater than the deadzone then move. This means the pawn should not move unless the joystick is at least a 1/4 of the way pressed in a direction. 
 		
 		AddMovementInput(VRDirection, MovementScale, false);
 	}
@@ -65,7 +56,7 @@ void AVRCharacter::Strafe(float Value)
 
 void AVRCharacter::MoveForwards(float Value)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Called FWD"));
+	//UE_LOG(LogTemp, Warning, TEXT("Called FWD"));
 	float MovementScale = Value * MovementSpeed;
 	FVector VRDirection = HMDCamera->GetForwardVector();
 	if (abs(Value) > MovementDeadzone)
@@ -91,7 +82,7 @@ void AVRCharacter::Turn(float Value)
 	}
 	else
 	{
-		//Snap turning
+		//Snap turning goes here
 
 	}
 }
@@ -106,5 +97,16 @@ void AVRCharacter::SnapToggle()
 	{
 		bIsUsingSnapTurn = true;
 	}
+}
+
+FVector AVRCharacter::TeleportTrace()
+{
+	//gets the location to teleport to with tracing.
+	return FVector();
+}
+
+void AVRCharacter::SimpleTeleport()
+{
+	//This Function handles the movement of the character to the location
 }
 

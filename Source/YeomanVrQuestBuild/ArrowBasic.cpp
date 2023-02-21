@@ -48,7 +48,7 @@ void AArrowBasic::OnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImp
 	const FHitResult& Hit)
 {
 	//when it hits another actor, add some impulse force and attach to the hit component
-	if (!OtherActor->IsA(ASkeletalBow::StaticClass()))//if not a bow do stuff.
+	if (OtherActor->ActorHasTag("Target")/*!OtherActor->IsA(ASkeletalBow::StaticClass()) || !OtherActor->IsA(AArrowBasic::StaticClass())*/)//if not a bow do stuff. Also should prevent the arrows being stuck in the air due to them trying to attach to one another
 	{
 		
 		ProjMovement->Velocity = FVector::ZeroVector;//Stop the projectile.
@@ -83,7 +83,7 @@ void AArrowBasic::ReleaseArrow_Implementation(float DrawLength, int DrawWeight, 
 	//adding a small amount of randomness to the y and Z axis of the velocity vector should simulate the arrow flexing in flight which causes slight deviation. This is why its rare for an arrow to hit another arrow, even with modern equipment
 	Velo.Y = Velo.Y + FMath::FRandRange(-3.0f, 3.0f);
 	Velo.Z = Velo.Z + FMath::FRandRange(-3.0f, 3.0f);
-	ProjMovement->Velocity = Velo/* * UGameplayStatics::GetWorldDeltaSeconds(this)*/;
+	ProjMovement->Velocity = Velo;
 	ProjMovement->ProjectileGravityScale = GravScale;
 	Mesh->SetMaterial(0, MovementMaterial);
 	this->SetLifeSpan(Delay);//Destroy the actor after a delat to stop arrow buildup causing performance issues.
