@@ -33,14 +33,31 @@ ASevenSpotTarget::ASevenSpotTarget()
 	OuterWhiteMesh->SetupAttachment(BullMesh);
 	this->Tags.Add(FName("Target"));
 
+	//Text setup
+	TXTMapName = CreateDefaultSubobject<UTextRenderComponent>(TEXT("MapName"));
+	TXTMapName->ToggleVisibility(false);
+	TXTMapName->SetRelativeLocation(FVector(0,10,0));
+	TXTMapName->SetText(FText::FromName(MapToLoad));
 }
 
 // Called when the game starts or when spawned
 void ASevenSpotTarget::BeginPlay()
 {
 	Super::BeginPlay();
-	OnActorHit.AddDynamic(this, &ASevenSpotTarget::OnTargetHit);
+	FString MapName = GetWorld()->GetMapName();
+	if (MapName == "Lvl_MainMenu")
+	{
+		OnActorHit.AddDynamic(this, &ASevenSpotTarget::OpenLevel);
+	}
+	else
+	{
+		OnActorHit.AddDynamic(this, &ASevenSpotTarget::OnTargetHit);
+		
+	}
 	GameModeRef = Cast<AYeomanVrQuestBuildGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
+	
+	
+	
 }
 
 // Called every frame
@@ -137,5 +154,10 @@ void ASevenSpotTarget::OnTargetHit(AActor* SelfActor, AActor* OtherActor, FVecto
 	}
 	
 	
+}
+
+void ASevenSpotTarget::OpenLevel(AActor* SelfActor, AActor* OtherActor, FVector NormalImpulse, const FHitResult& Hit)
+{
+	UGameplayStatics::OpenLevel(GetWorld(), MapToLoad);
 }
 

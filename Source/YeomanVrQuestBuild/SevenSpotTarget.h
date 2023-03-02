@@ -2,11 +2,13 @@
 
 #pragma once
 #include "ArrowBasic.h"
+#include "Components/TextRenderComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "YeomanVrQuestBuildGameModeBase.h"
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "SevenSpotTarget.generated.h"
+
 
 UCLASS()
 class YEOMANVRQUESTBUILD_API ASevenSpotTarget : public AActor
@@ -46,9 +48,18 @@ public:
 		UStaticMeshComponent* InnerWhiteMesh;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 		UStaticMeshComponent* OuterWhiteMesh;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		 FName MapToLoad;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		UTextRenderComponent* TXTMapName;
 	UPROPERTY()
 		AYeomanVrQuestBuildGameModeBase* GameModeRef;
+	
 	UFUNCTION()
 		void OnTargetHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpulse,
 			const FHitResult& Hit);
+	UFUNCTION()
+		void OpenLevel(AActor* SelfActor, AActor* OtherActor, FVector NormalImpulse,
+			const FHitResult& Hit);
 };
+
