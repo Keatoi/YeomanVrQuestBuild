@@ -39,6 +39,7 @@ UObject* ASkeletalBow::SpawnArrow()
 		FActorSpawnParameters SpawnParams = FActorSpawnParameters();
 		SpawnParams.Owner = this;
 		SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
+
 		SpawnedArrow = GetWorld()->SpawnActor<AArrowBasic>(ArrowClass, SkeleTransform);
 		UE_LOG(LogTemp, Warning, TEXT("Arrow is Spawning"));
 		return SpawnedArrow;

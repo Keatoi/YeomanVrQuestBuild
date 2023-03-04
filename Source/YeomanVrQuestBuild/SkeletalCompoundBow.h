@@ -20,7 +20,7 @@ public:
 	UFUNCTION(BlueprintPure, meta = (DisplayName = "Calculate DrawValue", CompactNodeTitle = "GetDrawValue", Keywords = "Draw Value"), Category = "Archery Maths")
 		float GetDrawValue(float DrawLen);
 	UPROPERTY(BlueprintReadWrite, category = "Draw Values")
-		float MinDrawValue = 5.0f;
+		float MinDrawValue = 50.0f;
 	UPROPERTY(BlueprintReadWrite, category = "Draw Values")
 		float MaxDrawValue = 100000.0f;
 

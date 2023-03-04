@@ -81,8 +81,8 @@ void AArrowBasic::ReleaseArrow_Implementation(float DrawLength, int DrawWeight, 
 	Velo = (this->GetActorForwardVector() * DrawLength);
 	UE_LOG(LogTemp, Warning, TEXT("Velo is : %s"), *Velo.ToString());
 	//adding a small amount of randomness to the y and Z axis of the velocity vector should simulate the arrow flexing in flight which causes slight deviation. This is why its rare for an arrow to hit another arrow, even with modern equipment
-	Velo.Y = Velo.Y + FMath::FRandRange(-3.0f, 3.0f);
-	Velo.Z = Velo.Z + FMath::FRandRange(-3.0f, 3.0f);
+	Velo.Y = Velo.Y + FMath::FRandRange(MinimumDeviation, MaximumDeviation);
+	Velo.Z = Velo.Z + FMath::FRandRange(MinimumDeviation, MaximumDeviation);
 	ProjMovement->Velocity = Velo;
 	ProjMovement->ProjectileGravityScale = GravScale;
 	Mesh->SetMaterial(0, MovementMaterial);

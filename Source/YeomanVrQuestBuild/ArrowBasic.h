@@ -44,6 +44,10 @@ public:
 		UMaterial* MovementMaterial;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 		float Delay = 10.0f;//arrow kills itself after being released, perhaps due to not wanting to allow the player to pick them up, perhaps due to loneliness, perhaps due to performance reasons who knows.
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+		float MaximumDeviation = 3.0f;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+		float MinimumDeviation = -3.0f;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 		bool bEnableGrab; // a toggle to allow times when we want the player to grab the arrow or not
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
