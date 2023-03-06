@@ -51,7 +51,7 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 		bool bEnableGrab; // a toggle to allow times when we want the player to grab the arrow or not
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
-		bool bEnableMovement;
+		float Rotation;
 	float SphereRad = 4.0f;
 	FTimerHandle ArrowTH;
 	float MaxSpeed = 100.0f;
@@ -68,10 +68,17 @@ public:
 		float p;// Momentum. 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Arrow Settings")
 		FVector Impulse;//Impulse energy generated on contact
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Arrow Settings")
+		float AirViscosity;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Arrow Settings")
+		float AirDensity;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Arrow Settings")
+		float ArrowRadius;
 	
 	UFUNCTION()
 		void OnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpulse,
 			const FHitResult& Hit);
 	void ReleaseArrow_Implementation(float DrawLength,int DrawWeight, float AdditionalWeight);
-	void ArrowMovement(const FVector& ProjDirection);
+	UFUNCTION(BlueprintPure, meta = (DisplayName = "Calculate Drag", CompactNodeTitle = "GetDrag", Keywords = "Drag"), Category = "Archery Maths")
+		float GetDrag();
 };

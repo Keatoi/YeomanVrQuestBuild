@@ -33,7 +33,7 @@ AArrowBasic::AArrowBasic()
 		ProjMovement->bRotationFollowsVelocity = true;
 		ProjMovement->bAutoActivate = true;
 		ProjMovement->Velocity = Velo;
-		bEnableMovement = false;
+		
 	}
 
 }
@@ -61,8 +61,16 @@ void AArrowBasic::OnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImp
 void AArrowBasic::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	//Used for testing
-	//ArrowMovement(Mesh->GetForwardVector());
+	if (!ProjMovement->Velocity.IsZero())//If the velocity of the arrow is not zero, i.e it is moving, then we rotate the mesh
+	{
+		FRotator ArrowRotation((Rotation * DeltaTime));
+		Mesh->AddLocalRotation(ArrowRotation);
+	}
+
+	
+
+	
+
 	
 }
 
@@ -91,10 +99,11 @@ void AArrowBasic::ReleaseArrow_Implementation(float DrawLength, int DrawWeight, 
 
 
 
-void AArrowBasic::ArrowMovement(const FVector& ProjDirection)
+
+
+float AArrowBasic::GetDrag()
 {
-	// A line trace but in an arc, used to determine where the arrow goes
-	ProjMovement->Velocity = ProjDirection * ProjMovement->InitialSpeed;
+	return 0.0f;
 }
 
 
