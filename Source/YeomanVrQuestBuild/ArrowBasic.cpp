@@ -65,6 +65,8 @@ void AArrowBasic::Tick(float DeltaTime)
 	{
 		FRotator ArrowRotation((Rotation * DeltaTime));
 		Mesh->AddLocalRotation(ArrowRotation);
+		float DragVal = GetDrag();
+		ApplyDrag(DeltaTime, DragVal);
 	}
 
 	
@@ -103,7 +105,19 @@ void AArrowBasic::ReleaseArrow_Implementation(float DrawLength, int DrawWeight, 
 
 float AArrowBasic::GetDrag()
 {
-	return 0.0f;
+	float VeloLen = ProjMovement->Velocity.Length() * 0.01;
+	float ArrowArea = PI * pow(0.00873, 2);//Calculation to get the cross surface area of an arrow, 0.00873 is 11/32" converted to metres
+	float DragCoeffValue = DragCoefficientCurve->GetFloatValue(VeloLen);//Get the position at the float curve along the X axis using the length of the velocity vector.
+	float Drag = (-0.5 * DragCoeffValue * AirDensity * ArrowArea * pow(VeloLen, 2)) / Mesh->GetMass();
+	return Drag;
+}
+
+void AArrowBasic::ApplyDrag(float DeltaTime, float Drag)
+{
+	float VeloChange = Drag * DeltaTime * -100.0;//Change in velocity caused by drag. -100 changes it from metres to centimetres
+	float RemainingVelo = 1.0 - (VeloChange / ProjMovement->Velocity.Length());//what percentage of the original velocity is left after drag is applied
+	FVector NewVelo = ProjMovement->Velocity * RemainingVelo;
+	ProjMovement->Velocity = NewVelo;
 }
 
 

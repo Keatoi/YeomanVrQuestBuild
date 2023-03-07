@@ -68,12 +68,10 @@ public:
 		float p;// Momentum. 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Arrow Settings")
 		FVector Impulse;//Impulse energy generated on contact
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Arrow Settings")
-		float AirViscosity;
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Arrow Settings")
-		float AirDensity;
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Arrow Settings")
-		float ArrowRadius;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Arrow Settings")
+		UCurveFloat* DragCoefficientCurve;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Arrow Settings")
+		float AirDensity = 1.225; //avg air density in England is 1.225 kg/m^3(https://macinstruments.com/blog/what-is-the-density-of-air-at-stp/#:~:text=In%20Metric%20units%3A%201.225%20kg%2Fm%5E3)
 	
 	UFUNCTION()
 		void OnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpulse,
@@ -81,4 +79,6 @@ public:
 	void ReleaseArrow_Implementation(float DrawLength,int DrawWeight, float AdditionalWeight);
 	UFUNCTION(BlueprintPure, meta = (DisplayName = "Calculate Drag", CompactNodeTitle = "GetDrag", Keywords = "Drag"), Category = "Archery Maths")
 		float GetDrag();
+	UFUNCTION()
+		void ApplyDrag(float DeltaTime,float Drag);
 };
