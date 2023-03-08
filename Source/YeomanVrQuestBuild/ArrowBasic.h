@@ -72,6 +72,8 @@ public:
 		UCurveFloat* DragCoefficientCurve;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Arrow Settings")
 		float AirDensity = 1.225; //avg air density in England is 1.225 kg/m^3(https://macinstruments.com/blog/what-is-the-density-of-air-at-stp/#:~:text=In%20Metric%20units%3A%201.225%20kg%2Fm%5E3)
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+		FVector WindToApply;
 	
 	UFUNCTION()
 		void OnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpulse,
@@ -81,4 +83,6 @@ public:
 		float GetDrag();
 	UFUNCTION()
 		void ApplyDrag(float DeltaTime,float Drag);
+	UFUNCTION()
+		void ApplyWind(FVector Wind);
 };

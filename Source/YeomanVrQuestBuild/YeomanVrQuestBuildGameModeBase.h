@@ -60,6 +60,10 @@ public:
 		bool bWindEnabled = false;
 	UPROPERTY(BlueprintReadWrite, Category = "Enviroment")
 		EWind RandWindDirection;
+	UPROPERTY(BlueprintReadWrite, Category = "Enviroment")
+		float WindSpeed;
+	UFUNCTION(BlueprintCallable)
+		float WindSpeedtoUU();
 	UFUNCTION(BlueprintCallable)
 		void AddScore();
 	UFUNCTION(BlueprintCallable)

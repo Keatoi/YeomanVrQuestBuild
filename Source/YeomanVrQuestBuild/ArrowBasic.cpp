@@ -67,8 +67,9 @@ void AArrowBasic::Tick(float DeltaTime)
 		Mesh->AddLocalRotation(ArrowRotation);
 		float DragVal = GetDrag();
 		ApplyDrag(DeltaTime, DragVal);
+		ProjMovement->Velocity = (WindToApply * DeltaTime) + ProjMovement->Velocity;
 	}
-
+	
 	
 
 	
@@ -118,6 +119,11 @@ void AArrowBasic::ApplyDrag(float DeltaTime, float Drag)
 	float RemainingVelo = 1.0 - (VeloChange / ProjMovement->Velocity.Length());//what percentage of the original velocity is left after drag is applied
 	FVector NewVelo = ProjMovement->Velocity * RemainingVelo;
 	ProjMovement->Velocity = NewVelo;
+}
+
+void AArrowBasic::ApplyWind(FVector Wind)
+{
+	WindToApply = WindToApply + Wind;
 }
 
 

@@ -3,6 +3,12 @@
 
 #include "YeomanVrQuestBuildGameModeBase.h"
 
+float AYeomanVrQuestBuildGameModeBase::WindSpeedtoUU()
+{
+	float UUWindSpeed = (WindSpeed * 0.447) / 100;//converts mph into Metres per Second and then into UU
+	return UUWindSpeed;
+}
+
 void AYeomanVrQuestBuildGameModeBase::AddScore()
 {
 	
