@@ -12,7 +12,7 @@ float ASkeletalCompoundBow::GetDrawLength(FVector HandLoc)
 
 		FVector TransformedLoc = UKismetMathLibrary::InverseTransformLocation(IdleTransform, HandLoc);
 		float value = TransformedLoc.X;
-		float DrawLen = UKismetMathLibrary::MapRangeClamped(value, NULL, 38, NULL, 1);
+		float DrawLen = UKismetMathLibrary::MapRangeClamped(value, 0, 38, 0, 1);
 		return DrawLen;
 	
 
@@ -22,7 +22,7 @@ float ASkeletalCompoundBow::GetDrawLength(FVector HandLoc)
 
 float ASkeletalCompoundBow::GetDrawValue(float DrawLen)
 {
-	float DrawValue = UKismetMathLibrary::MapRangeClamped(DrawLen, NULL, 1, MinDrawValue, MaxDrawValue);
+	float DrawValue = UKismetMathLibrary::MapRangeClamped(DrawLen,0, 1, MinDrawValue, MaxDrawValue);
 	return DrawValue
 		;
 }

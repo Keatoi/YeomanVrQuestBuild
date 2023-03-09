@@ -1,7 +1,8 @@
 // By OwenAtkinson
+#include "WindActor.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "ArrowBasic.h"
-#include "WindActor.h"
+
 
 // Sets default values
 AWindActor::AWindActor()
@@ -17,7 +18,7 @@ AWindActor::AWindActor()
 void AWindActor::BeginPlay()
 {
 	Super::BeginPlay();
-	WindVector = this->GetActorForwardVector() * FMath::FRandRange(MinWindSpeed, MaxWindSpeed);
+	WindVector = this->GetActorForwardVector() * WindSpeed;
 	WindBox->OnComponentBeginOverlap.AddDynamic(this, &AWindActor::OnOverlapBegin);
 	WindBox->OnComponentEndOverlap.AddDynamic(this, &AWindActor::OnOverlapEnd);
 }

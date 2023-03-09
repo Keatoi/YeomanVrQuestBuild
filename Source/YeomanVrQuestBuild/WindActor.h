@@ -30,9 +30,8 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Wind Settings")
 		FVector WindVector;
 	UPROPERTY(EditAnywhere, Category = "Wind Settings")
-		float MinWindSpeed;
-	UPROPERTY(EditAnywhere, Category = "Wind Settings")
-		float MaxWindSpeed;
+		float WindSpeed = 500;
+	
 	UPROPERTY(EditAnywhere, Category = "Wind Settings")
 		class AArrowBasic* Arrow;
 	UFUNCTION()
