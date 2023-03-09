@@ -106,11 +106,18 @@ void AArrowBasic::ReleaseArrow_Implementation(float DrawLength, int DrawWeight, 
 
 float AArrowBasic::GetDrag()
 {
-	float VeloLen = ProjMovement->Velocity.Length() * 0.01;
-	float ArrowArea = PI * pow(0.00873, 2);//Calculation to get the cross surface area of an arrow, 0.00873 is 11/32" converted to metres
-	float DragCoeffValue = DragCoefficientCurve->GetFloatValue(VeloLen);//Get the position at the float curve along the X axis using the length of the velocity vector.
-	float Drag = (-0.5 * DragCoeffValue * AirDensity * ArrowArea * pow(VeloLen, 2)) / Mesh->GetMass();
-	return Drag;
+	if (DragCoefficientCurve)
+	{
+		float VeloLen = ProjMovement->Velocity.Length() * 0.01;
+		float ArrowArea = PI * pow(0.00873, 2);//Calculation to get the cross surface area of an arrow, 0.00873 is 11/32" converted to metres
+		float DragCoeffValue = DragCoefficientCurve->GetFloatValue(VeloLen);//Get the position at the float curve along the X axis using the length of the velocity vector.
+		float Drag = (-0.5 * DragCoeffValue * AirDensity * ArrowArea * pow(VeloLen, 2)) / 0.028;
+		return Drag;
+	}
+	else
+	{
+		return 0;
+	}
 }
 
 void AArrowBasic::ApplyDrag(float DeltaTime, float Drag)
