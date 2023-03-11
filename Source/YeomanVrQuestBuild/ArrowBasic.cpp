@@ -48,6 +48,7 @@ void AArrowBasic::BeginPlay()
 void AArrowBasic::OnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpulse,
 	const FHitResult& Hit)
 {
+	
 	//when it hits another actor, add some impulse force and attach to the hit component
 	if (OtherActor->ActorHasTag("Target")/*!OtherActor->IsA(ASkeletalBow::StaticClass()) || !OtherActor->IsA(AArrowBasic::StaticClass())*/)//if not a bow do stuff. Also should prevent the arrows being stuck in the air due to them trying to attach to one another
 	{
@@ -55,6 +56,12 @@ void AArrowBasic::OnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImp
 		ProjMovement->Velocity = FVector::ZeroVector;//Stop the projectile.
 		SelfActor->AttachToActor(OtherActor, FAttachmentTransformRules(EAttachmentRule::KeepWorld, EAttachmentRule::KeepWorld, EAttachmentRule::KeepWorld, true));//Attach it to the hit actor
 		SelfActor->AddActorLocalOffset(FVector(FMath::FRandRange(1.0f, 8.0f), 0.0, 0.0));//Sinks the arrow into the target by a random amount to simulate the target being used before.
+		Mesh->SetMaterial(0, IdleMaterial);
+		
+	}
+	else if (!OtherActor->ActorHasTag("Bow"))
+	{
+		ProjMovement->Velocity = FVector::ZeroVector;//Stop the projectile.
 		Mesh->SetMaterial(0, IdleMaterial);
 	}
 	
@@ -70,7 +77,8 @@ void AArrowBasic::Tick(float DeltaTime)
 		ApplyDrag(DeltaTime, DragVal);
 		ProjMovement->Velocity = (WindToApply * DeltaTime) + ProjMovement->Velocity;
 	}
-	
+	FVector FinalPos = GetActorLocation();
+	Distance = (FinalPos - SpawnPos).Size();
 	
 
 	
@@ -89,7 +97,7 @@ void AArrowBasic::ReleaseArrow_Implementation(float DrawLength, int DrawWeight, 
 	//Calculating the velocity of the arrow. This uses the equation v = IBO + (L-30) * 10 - W/3 + min(0,-(A-5D/3).
 	
 	//IBO + (DrawLength - 30) * 10 - AdditionalWeight / 3 + std::min(0, -(AW - (5 * DrawWeight) / 3));
-	
+	SpawnPos = GetActorLocation();
 	Velo = (this->GetActorForwardVector() * DrawLength);
 	UE_LOG(LogTemp, Warning, TEXT("Velo is : %s"), *Velo.ToString());
 	//adding a small amount of randomness to the y and Z axis of the velocity vector should simulate the arrow flexing in flight which causes slight deviation. This is why its rare for an arrow to hit another arrow, even with modern equipment

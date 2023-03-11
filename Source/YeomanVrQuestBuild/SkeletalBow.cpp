@@ -15,6 +15,7 @@ ASkeletalBow::ASkeletalBow()
 	BowSkeleton->SetupAttachment(RootComponent);
 	ArrowHelper = CreateDefaultSubobject<USceneComponent>(TEXT("Helper"));
 	ArrowHelper->SetRelativeLocation(ArrowOffset);
+	this->Tags.Add(FName("Bow"));
 }
 
 // Called when the game starts or when spawned
@@ -51,15 +52,15 @@ UObject* ASkeletalBow::SpawnArrow()
 	
 }
 
-bool ASkeletalBow::ShouldSpawnArrow(FVector MCWorldLoc)
+bool ASkeletalBow::ShouldSpawnArrow(FVector MCWorldLoc, float MinDist, FName SocketName)
 {
 	//if the other motion controller is close enough to the skeleton string socket location return true
 	if (BowSkeleton)
 	{
-		FVector SkeleLoc = BowSkeleton->GetSocketLocation(FName("StringIdle"));
+		FVector SkeleLoc = BowSkeleton->GetSocketLocation(FName(SocketName));
 		FVector SubVect = MCWorldLoc - SkeleLoc;
 		float VectLen = SubVect.Size();
-		if (VectLen < 20.0f)
+		if (VectLen < MinDist)
 		{
 			return true;
 		}

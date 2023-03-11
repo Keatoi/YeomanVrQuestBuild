@@ -1,6 +1,7 @@
 // By OwenAtkinson
 
 #pragma once
+#include "VrCompetitiveGameMode.h"
 #include "ArrowBasic.h"
 #include "Components/TextRenderComponent.h"
 #include "Kismet/GameplayStatics.h"
@@ -52,6 +53,7 @@ public:
 		 FName MapToLoad;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		UTextRenderComponent* TXTMapName;
+	
 	UPROPERTY()
 		AYeomanVrQuestBuildGameModeBase* GameModeRef;
 	

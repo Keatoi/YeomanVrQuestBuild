@@ -32,7 +32,7 @@ public:
 	UFUNCTION(BlueprintCallable)
 		UObject* SpawnArrow();
 	UFUNCTION(BlueprintCallable)
-		bool ShouldSpawnArrow(FVector MCWorldLoc);
+		bool ShouldSpawnArrow(FVector MCWorldLoc,float MinDist, FName SocketName);
 	UFUNCTION(BlueprintCallable)
 		void AttachArrow();
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Arrow Settings")

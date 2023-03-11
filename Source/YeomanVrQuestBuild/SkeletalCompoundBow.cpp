@@ -11,8 +11,8 @@ float ASkeletalCompoundBow::GetDrawLength(FVector HandLoc)
 		FTransform IdleTransform = BowSkeleton->GetSocketTransform("stringSocket_Idle", RTS_World);
 
 		FVector TransformedLoc = UKismetMathLibrary::InverseTransformLocation(IdleTransform, HandLoc);
-		float value = TransformedLoc.X;
-		float DrawLen = UKismetMathLibrary::MapRangeClamped(value, 0, 38, 0, 1);
+		float value = TransformedLoc.Z;
+		float DrawLen = UKismetMathLibrary::MapRangeClamped(value, 0, -2, 0, 1);
 		return DrawLen;
 	
 
@@ -23,6 +23,6 @@ float ASkeletalCompoundBow::GetDrawLength(FVector HandLoc)
 float ASkeletalCompoundBow::GetDrawValue(float DrawLen)
 {
 	float DrawValue = UKismetMathLibrary::MapRangeClamped(DrawLen,0, 1, MinDrawValue, MaxDrawValue);
-	return DrawValue
-		;
+	return DrawValue;
+		
 }

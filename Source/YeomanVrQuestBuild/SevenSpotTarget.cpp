@@ -38,6 +38,7 @@ ASevenSpotTarget::ASevenSpotTarget()
 	TXTMapName->ToggleVisibility(false);
 	TXTMapName->SetRelativeLocation(FVector(0,10,0));
 	TXTMapName->SetText(FText::FromName(MapToLoad));
+    
 }
 
 // Called when the game starts or when spawned

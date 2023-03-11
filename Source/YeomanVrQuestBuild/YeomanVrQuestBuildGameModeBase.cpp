@@ -3,6 +3,16 @@
 
 #include "YeomanVrQuestBuildGameModeBase.h"
 
+void AYeomanVrQuestBuildGameModeBase::BeginPlay()
+{
+	Super::BeginPlay();
+	//Start a Timer to only start counting scores, 5 seconds after the game mode is loaded allowing players time to orient themselves and grab a bow
+	if (bCompetitiveMode)
+	{
+		GetWorldTimerManager().SetTimer(ScoreTimer, this, &AYeomanVrQuestBuildGameModeBase::StartScoreTimer, 5.0f, false);
+	}
+}
+
 float AYeomanVrQuestBuildGameModeBase::WindSpeedtoUU()
 {
 	float UUWindSpeed = (WindSpeed * 0.447) / 100;//converts mph into Metres per Second and then into UU
@@ -48,17 +58,35 @@ void AYeomanVrQuestBuildGameModeBase::AddScore()
 		scoreTotal += 1;
 		break;
 	case(EScore::Hit_Miss):
-		
+		scoreTotal += 0;
 		break;
 	}
 	//Increase arrow count by one and then calculate an average to display on the Wrist UI
+
 	ArrowCount++;
 	ArrowAvg = scoreTotal / ArrowCount;
+	UpdateEnds();
 }
 
 void AYeomanVrQuestBuildGameModeBase::UpdateEnds()
 {
-	//not yet implemented
+	if (ArrowCount % 4 == 0)
+	{
+		EndCount++;// if Arrow Count is divisible by four update the end counter by 1. This simulates a new end starting every 4th arrow.
+
+
+		if (bCompetitiveMode == true)// if using the competitive game mode then the game will end after a certain amount of arrows shot
+		{
+			EndScore += scoreTotal;
+			scoreTotal = 0;
+
+			if (ArrowCount >= MaxArrows || EndCount >= MaxEndCount)
+			{
+				bGameOver = true;
+			}
+		}
+	}
+	
 }
 
 void AYeomanVrQuestBuildGameModeBase::Reset()
@@ -81,4 +109,17 @@ void AYeomanVrQuestBuildGameModeBase::WindRotation()
 		return;
 	}
 	
+}
+
+void AYeomanVrQuestBuildGameModeBase::StartScoreTimer()
+{
+	GetWorldTimerManager().ClearTimer(ScoreTimer);//Clear the timer so it can be used with the Timeout Function
+	GetWorldTimerManager().SetTimer(ScoreTimer,this, &AYeomanVrQuestBuildGameModeBase::Timeout, 120.0f, false, 5.0f);
+}
+
+void AYeomanVrQuestBuildGameModeBase::Timeout()
+{
+	//Still need to figure out how best to do this. For now it will just Add an arrow and add 0 to the score. Effectively costing the player a shot.
+	ArrowCount++;
+	scoreTotal += 0;
 }

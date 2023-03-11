@@ -22,7 +22,7 @@ public:
 	UPROPERTY(BlueprintReadWrite, category = "Draw Values")
 		float MinDrawValue = 0.0f;
 	UPROPERTY(BlueprintReadWrite, category = "Draw Values")
-		float MaxDrawValue = 10000.0f;
+		float MaxDrawValue = 8700.0f;
 
 	
 };

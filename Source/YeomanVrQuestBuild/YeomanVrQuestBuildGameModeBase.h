@@ -37,7 +37,9 @@ class YEOMANVRQUESTBUILD_API AYeomanVrQuestBuildGameModeBase : public AGameModeB
 {
 	GENERATED_BODY()
 protected:
-	FTimerHandle WindTimer;
+	FTimerHandle ScoreTimer;
+	// Called when the game starts or when spawned
+	virtual void BeginPlay() override;
 	
 public:
 	UPROPERTY(BlueprintReadWrite)
@@ -55,6 +57,8 @@ public:
 	UPROPERTY(BlueprintReadWrite)
 		int ArrowAvg = 0;
 	UPROPERTY(BlueprintReadWrite)
+		int EndAvg = 0;
+	UPROPERTY(BlueprintReadWrite)
 		int EndScore = 0;
 	UPROPERTY(BlueprintReadWrite, Category = "Enviroment")
 		bool bWindEnabled = false;
@@ -62,6 +66,14 @@ public:
 		EWind RandWindDirection;
 	UPROPERTY(BlueprintReadWrite, Category = "Enviroment")
 		float WindSpeed;
+	UPROPERTY(BlueprintReadWrite, Category = "Competition Settings")
+		float MaxArrows = 60;
+	UPROPERTY(BlueprintReadWrite, Category = "Competition Settings")
+		float MaxEndCount = 20;
+	UPROPERTY(BlueprintReadWrite, Category = "Competition Settings")
+		bool bGameOver = false;
+	UPROPERTY(BlueprintReadWrite, Category = "Competition Settings")
+		bool bCompetitiveMode = true;
 	UFUNCTION(BlueprintCallable)
 		float WindSpeedtoUU();
 	UFUNCTION(BlueprintCallable)
@@ -72,5 +84,9 @@ public:
 		void Reset();//Resets score arrow count etc. to zero
 	UFUNCTION(BlueprintCallable)
 		void WindRotation();//Changes wind direction after timer update
+	UFUNCTION(BlueprintCallable)
+		void StartScoreTimer();
+	UFUNCTION(BlueprintCallable)
+		void Timeout();
 	
 };

@@ -58,7 +58,11 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 	FVector Velo = { 0.0, 0.0, 0.0 };
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+		FVector SpawnPos = { 0.0, 0.0, 0.0 };
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 		float GravScale = 1.0f;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+		float Distance;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Arrow Settings")
 		int IBO = 150; //Bow arrow speed in ft/s according to manufacturer specification. We'll just use a generic value that can be changed between arrow types based on their closest irl equivalents
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Arrow Settings")
