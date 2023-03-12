@@ -50,7 +50,7 @@ void AArrowBasic::OnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImp
 {
 	
 	//when it hits another actor, add some impulse force and attach to the hit component
-	if (OtherActor->ActorHasTag("Target")/*!OtherActor->IsA(ASkeletalBow::StaticClass()) || !OtherActor->IsA(AArrowBasic::StaticClass())*/)//if not a bow do stuff. Also should prevent the arrows being stuck in the air due to them trying to attach to one another
+	if (OtherActor->ActorHasTag("Target"))//if a target attach and dig into the actor, scoring is handled in the target actor
 	{
 		
 		ProjMovement->Velocity = FVector::ZeroVector;//Stop the projectile.
@@ -59,10 +59,14 @@ void AArrowBasic::OnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImp
 		Mesh->SetMaterial(0, IdleMaterial);
 		
 	}
-	else if (!OtherActor->ActorHasTag("Bow"))
+	else if (!OtherActor->ActorHasTag("Bow"))//If its not a target or a bow, collide and count as a miss
 	{
 		ProjMovement->Velocity = FVector::ZeroVector;//Stop the projectile.
 		Mesh->SetMaterial(0, IdleMaterial);
+		if (GameModeRef)
+		{
+			GameModeRef->scoreVariable = EScore::Hit_Miss;
+		}
 	}
 	
 }

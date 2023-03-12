@@ -73,7 +73,7 @@ void AYeomanVrQuestBuildGameModeBase::UpdateEnds()
 	if (ArrowCount % 4 == 0)
 	{
 		EndCount++;// if Arrow Count is divisible by four update the end counter by 1. This simulates a new end starting every 4th arrow.
-
+		StartScoreTimer(); //Reset end timer
 
 		if (bCompetitiveMode == true)// if using the competitive game mode then the game will end after a certain amount of arrows shot
 		{
@@ -84,6 +84,7 @@ void AYeomanVrQuestBuildGameModeBase::UpdateEnds()
 			{
 				bGameOver = true;
 			}
+			
 		}
 	}
 	
@@ -120,6 +121,18 @@ void AYeomanVrQuestBuildGameModeBase::StartScoreTimer()
 void AYeomanVrQuestBuildGameModeBase::Timeout()
 {
 	//Still need to figure out how best to do this. For now it will just Add an arrow and add 0 to the score. Effectively costing the player a shot.
-	ArrowCount++;
-	scoreTotal += 0;
+	do { ArrowCount++; } while (ArrowCount % 4 != 0);//increase arrow count until arrow count is divisible by 4 then increment the Endcount and set score to 0, this essentially prematurely finishes the end
+	EndCount++;
+	if (bCompetitiveMode == true)// if using the competitive game mode then the game will end after a certain amount of arrows shot
+	{
+		EndScore += scoreTotal;
+		scoreTotal = 0;
+
+		if (ArrowCount >= MaxArrows || EndCount >= MaxEndCount)
+		{
+			bGameOver = true;
+		}
+	}
+	
+	StartScoreTimer();
 }
