@@ -53,4 +53,8 @@ public:
 		float DrawLength;
 	UFUNCTION(BlueprintCallable)
 		void ReleaseArrow(USceneComponent* HandComp, float DrawVal);
+	UFUNCTION(BlueprintCallable)
+		void AttachBow(USkeletalMeshComponent* HandMesh, FName SocketName,bool bIsLeft);
+	UFUNCTION(BlueprintCallable)
+		void DetachBow();
 };

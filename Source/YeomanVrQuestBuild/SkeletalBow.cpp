@@ -43,6 +43,7 @@ UObject* ASkeletalBow::SpawnArrow()
 
 		SpawnedArrow = GetWorld()->SpawnActor<AArrowBasic>(ArrowClass, SkeleTransform);
 		UE_LOG(LogTemp, Warning, TEXT("Arrow is Spawning"));
+		AttachArrow();
 		return SpawnedArrow;
 	}
 	else return nullptr;
@@ -94,5 +95,25 @@ void ASkeletalBow::ReleaseArrow(USceneComponent* HandComp,float DrawVal)
 		SpawnedArrow = nullptr;
 	}
 	
+}
+
+void ASkeletalBow::AttachBow(USkeletalMeshComponent* HandMesh, FName SocketName, bool bIsLeft)
+{
+	
+
+	AttachToComponent(HandMesh, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, EAttachmentRule::SnapToTarget, EAttachmentRule::KeepWorld, false));
+	if (!bIsLeft)
+	{
+		BowSkeleton->SetRelativeRotation(FRotator(0.0, 0.0, 180.0));
+	}
+	BowSkeleton->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+}
+
+void ASkeletalBow::DetachBow()
+{
+	DetachFromActor(FDetachmentTransformRules(EDetachmentRule::KeepWorld,false));
+	DrawLength = 0.0f;
+	BowSkeleton->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+	BowSkeleton->SetSimulatePhysics(true);
 }
 
