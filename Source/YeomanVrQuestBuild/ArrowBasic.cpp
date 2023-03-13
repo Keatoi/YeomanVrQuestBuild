@@ -67,7 +67,18 @@ void AArrowBasic::OnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImp
 		{
 			GameModeRef->scoreVariable = EScore::Hit_Miss;
 		}
+		if (ArrowAudioComponent)//Play an generic sound of the arrow hitting something,Target specific ones will once again be handled within the target
+		{
+			if (!ArrowAudioComponent->IsActive())
+			{
+				ArrowAudioComponent->SetActive(true);
+			}
+			ArrowAudioComponent = UGameplayStatics::SpawnSoundAtLocation(this, ImpactCue, GetActorLocation(), FRotator::ZeroRotator, VolumeMultiplier, AudioPitch, 0.0f, nullptr, nullptr, true);
+		}
 	}
+	
+	
+	
 	
 }
 void AArrowBasic::Tick(float DeltaTime)
@@ -80,9 +91,22 @@ void AArrowBasic::Tick(float DeltaTime)
 		float DragVal = GetDrag();
 		ApplyDrag(DeltaTime, DragVal);
 		ProjMovement->Velocity = (WindToApply * DeltaTime) + ProjMovement->Velocity;
+		//adding a small amount of randomness to the y and Z axis of the velocity vector should simulate the arrow flexing in flight which causes slight deviation. This is why its rare for an arrow to hit another arrow, even with modern equipment
+		Velo.Y = Velo.Y + FMath::FRandRange(MinimumDeviation, MaximumDeviation);
+		Velo.Z = Velo.Z + FMath::FRandRange(MinimumDeviation, MaximumDeviation);
+		//play a sound at the arrows location
+		if (ArrowAudioComponent)//Play an sound of the arrow moving throught the air.
+		{
+			if (!ArrowAudioComponent->IsActive())
+			{
+				ArrowAudioComponent->SetActive(true);
+			}
+			ArrowAudioComponent = UGameplayStatics::SpawnSoundAtLocation(this, ArrowCue, GetActorLocation(), FRotator::ZeroRotator, VolumeMultiplier, AudioPitch, 0.0f, nullptr, nullptr, true);
+		}
+		FVector FinalPos = GetActorLocation();
+		Distance = (FinalPos - SpawnPos).X;//Arrow distance should only account for forward movement so we only need the X axis
 	}
-	FVector FinalPos = GetActorLocation();
-	Distance = (FinalPos - SpawnPos).Size();
+	
 	
 
 	
@@ -104,9 +128,7 @@ void AArrowBasic::ReleaseArrow_Implementation(float DrawLength, int DrawWeight, 
 	SpawnPos = GetActorLocation();
 	Velo = (this->GetActorForwardVector() * DrawLength);
 	UE_LOG(LogTemp, Warning, TEXT("Velo is : %s"), *Velo.ToString());
-	//adding a small amount of randomness to the y and Z axis of the velocity vector should simulate the arrow flexing in flight which causes slight deviation. This is why its rare for an arrow to hit another arrow, even with modern equipment
-	Velo.Y = Velo.Y + FMath::FRandRange(MinimumDeviation, MaximumDeviation);
-	Velo.Z = Velo.Z + FMath::FRandRange(MinimumDeviation, MaximumDeviation);
+	
 	ProjMovement->Velocity = Velo;
 	ProjMovement->ProjectileGravityScale = GravScale;
 	Mesh->SetMaterial(0, MovementMaterial);

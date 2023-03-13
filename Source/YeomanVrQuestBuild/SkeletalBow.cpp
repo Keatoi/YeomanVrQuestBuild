@@ -40,8 +40,15 @@ UObject* ASkeletalBow::SpawnArrow()
 		FActorSpawnParameters SpawnParams = FActorSpawnParameters();
 		SpawnParams.Owner = this;
 		SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
-
-		SpawnedArrow = GetWorld()->SpawnActor<AArrowBasic>(ArrowClass, SkeleTransform);
+		if (bUseAlt)
+		{
+			SpawnedArrow = GetWorld()->SpawnActor<AArrowBasic>(ArrowAlt, SkeleTransform);
+		}
+		else
+		{
+			SpawnedArrow = GetWorld()->SpawnActor<AArrowBasic>(ArrowClass, SkeleTransform);
+		}
+		
 		UE_LOG(LogTemp, Warning, TEXT("Arrow is Spawning"));
 		AttachArrow();
 		return SpawnedArrow;
@@ -53,7 +60,7 @@ UObject* ASkeletalBow::SpawnArrow()
 	
 }
 
-bool ASkeletalBow::ShouldSpawnArrow(FVector MCWorldLoc, float MinDist, FName SocketName)
+bool ASkeletalBow::ShouldSpawnArrow(FVector MCWorldLoc, float MinDist, FName SocketName, bool ReverseCheck)
 {
 	//if the other motion controller is close enough to the skeleton string socket location return true
 	if (BowSkeleton)
@@ -61,7 +68,11 @@ bool ASkeletalBow::ShouldSpawnArrow(FVector MCWorldLoc, float MinDist, FName Soc
 		FVector SkeleLoc = BowSkeleton->GetSocketLocation(FName(SocketName));
 		FVector SubVect = MCWorldLoc - SkeleLoc;
 		float VectLen = SubVect.Size();
-		if (VectLen < MinDist)
+		if (!ReverseCheck && VectLen < MinDist)//Some skeletal Meshes tested are set up in a way that the minfist would actually end up being a negative, as a work around the node will have a bool check to determine which if statement to use.
+		{
+			return true;
+		}
+		else if(ReverseCheck && VectLen > MinDist)
 		{
 			return true;
 		}
@@ -76,7 +87,17 @@ void ASkeletalBow::AttachArrow()
 	if (SpawnedArrow != nullptr)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Arrow is Attaching to string"));
-		SpawnedArrow->AttachToComponent(BowSkeleton, FAttachmentTransformRules(EAttachmentRule::KeepWorld, EAttachmentRule::KeepWorld, EAttachmentRule::KeepWorld, true), FName("bowStringSocket"));
+		if (bKeepArrowScale)
+		{
+			SpawnedArrow->AttachToComponent(BowSkeleton, FAttachmentTransformRules(EAttachmentRule::KeepWorld, EAttachmentRule::KeepWorld, EAttachmentRule::KeepWorld, true), StringSocket);
+		}
+		else
+		{
+			SpawnedArrow->AttachToComponent(BowSkeleton, FAttachmentTransformRules(EAttachmentRule::KeepWorld, EAttachmentRule::KeepWorld, EAttachmentRule::KeepRelative, true), StringSocket);
+			
+		}
+		//SpawnedArrow->AttachToComponent(BowSkeleton, FAttachmentTransformRules(EAttachmentRule::KeepWorld, EAttachmentRule::KeepWorld, EAttachmentRule::KeepWorld, true), StringSocket);
+		SpawnedArrow->SetActorScale3D(ArrowScale);
 		SpawnedArrow->AddActorLocalOffset(ArrowOffset);
 		SpawnedArrow->SetActorRelativeRotation(ArrowRot);
 	}
@@ -97,15 +118,12 @@ void ASkeletalBow::ReleaseArrow(USceneComponent* HandComp,float DrawVal)
 	
 }
 
-void ASkeletalBow::AttachBow(USkeletalMeshComponent* HandMesh, FName SocketName, bool bIsLeft)
+void ASkeletalBow::AttachBow(USkeletalMeshComponent* HandMesh, FName SocketName,FRotator BowRotation)
 {
 	
 
-	AttachToComponent(HandMesh, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, EAttachmentRule::SnapToTarget, EAttachmentRule::KeepWorld, false));
-	if (!bIsLeft)
-	{
-		BowSkeleton->SetRelativeRotation(FRotator(0.0, 0.0, 180.0));
-	}
+	AttachToComponent(HandMesh, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, EAttachmentRule::SnapToTarget, EAttachmentRule::KeepWorld, false),SocketName);
+	BowSkeleton->SetRelativeRotation(FRotator(BowRotation));
 	BowSkeleton->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 }
 
@@ -114,6 +132,6 @@ void ASkeletalBow::DetachBow()
 	DetachFromActor(FDetachmentTransformRules(EDetachmentRule::KeepWorld,false));
 	DrawLength = 0.0f;
 	BowSkeleton->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
-	BowSkeleton->SetSimulatePhysics(true);
+	
 }
 

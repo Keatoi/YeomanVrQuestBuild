@@ -37,7 +37,7 @@ class YEOMANVRQUESTBUILD_API AYeomanVrQuestBuildGameModeBase : public AGameModeB
 {
 	GENERATED_BODY()
 protected:
-	FTimerHandle ScoreTimer;
+	
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 	
@@ -74,6 +74,10 @@ public:
 		bool bGameOver = false;
 	UPROPERTY(BlueprintReadWrite, Category = "Competition Settings")
 		bool bCompetitiveMode = true;
+	UPROPERTY(BlueprintReadWrite, Category = "Competition Settings")
+	FTimerHandle ScoreTimer;
+	UPROPERTY(BlueprintReadWrite, Category = "Competition Settings")
+		float TimeAmount = 120.0f;
 	UFUNCTION(BlueprintCallable)
 		float WindSpeedtoUU();
 	UFUNCTION(BlueprintCallable)

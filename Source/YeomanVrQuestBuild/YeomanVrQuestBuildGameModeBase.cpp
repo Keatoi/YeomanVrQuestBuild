@@ -115,12 +115,12 @@ void AYeomanVrQuestBuildGameModeBase::WindRotation()
 void AYeomanVrQuestBuildGameModeBase::StartScoreTimer()
 {
 	GetWorldTimerManager().ClearTimer(ScoreTimer);//Clear the timer so it can be used with the Timeout Function
-	GetWorldTimerManager().SetTimer(ScoreTimer,this, &AYeomanVrQuestBuildGameModeBase::Timeout, 120.0f, false, 5.0f);
+	GetWorldTimerManager().SetTimer(ScoreTimer,this, &AYeomanVrQuestBuildGameModeBase::Timeout, TimeAmount, false);
 }
 
 void AYeomanVrQuestBuildGameModeBase::Timeout()
 {
-	//Still need to figure out how best to do this. For now it will just Add an arrow and add 0 to the score. Effectively costing the player a shot.
+	//Still need to figure out how best to do this.
 	do { ArrowCount++; } while (ArrowCount % 4 != 0);//increase arrow count until arrow count is divisible by 4 then increment the Endcount and set score to 0, this essentially prematurely finishes the end
 	EndCount++;
 	if (bCompetitiveMode == true)// if using the competitive game mode then the game will end after a certain amount of arrows shot

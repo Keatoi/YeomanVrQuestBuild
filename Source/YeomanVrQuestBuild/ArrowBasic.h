@@ -1,6 +1,8 @@
 // By OwenAtkinson
 
 #pragma once
+#include "Sound/SoundCue.h"
+#include "Components/AudioComponent.h"
 #include "YeomanVrQuestBuildGameModeBase.h"
 #include "Kismet/KismetSystemLibrary.h"
 #include "Components/BoxComponent.h"
@@ -45,13 +47,24 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 		float Delay = 10.0f;//arrow kills itself after being released, perhaps due to not wanting to allow the player to pick them up, perhaps due to loneliness, perhaps due to performance reasons who knows.
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
-		float MaximumDeviation = 3.0f;
+		float MaximumDeviation = 1.0f;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
-		float MinimumDeviation = -3.0f;
+		float MinimumDeviation = -1.0f;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 		bool bEnableGrab; // a toggle to allow times when we want the player to grab the arrow or not
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 		float Rotation;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+		UAudioComponent* ArrowAudioComponent;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		USoundCue* ArrowCue;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		USoundCue* ImpactCue;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		float VolumeMultiplier = 1.0f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		float AudioPitch = 1.0f;
+
 	float SphereRad = 4.0f;
 	FTimerHandle ArrowTH;
 	float MaxSpeed = 100.0f;

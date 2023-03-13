@@ -32,11 +32,15 @@ public:
 	UFUNCTION(BlueprintCallable)
 		UObject* SpawnArrow();
 	UFUNCTION(BlueprintCallable)
-		bool ShouldSpawnArrow(FVector MCWorldLoc,float MinDist, FName SocketName);
+		bool ShouldSpawnArrow(FVector MCWorldLoc,float MinDist, FName SocketName, bool ReverseCheck);
 	UFUNCTION(BlueprintCallable)
 		void AttachArrow();
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Arrow Settings")
 		TSubclassOf<AArrowBasic> ArrowClass;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Arrow Settings")
+		TSubclassOf<AArrowBasic> ArrowAlt;//quick and dirty way of using multiple ammos
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Arrow Settings")
+		bool bUseAlt = false;
 	UPROPERTY()
 	AArrowBasic* SpawnedArrow;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Arrow Settings")
@@ -46,15 +50,21 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 		USceneComponent* ArrowHelper;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Arrow Settings")
+		FName StringSocket = "bowStringSocket";
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Arrow Settings")
 		int DrawWeight = 45;//Weight of the bow at max draw length in lbs; e.g when measured at 29" my bow has 45lbs of force applied to fingers
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Arrow Settings")
 		float AdditionalWeight = 0; //Some Bows have attachments that can affect the string, such as silencers. Doubtfull if they'll make it into the project but nice to put in just in case.
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Arrow Settings")
 		float DrawLength;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Arrow Settings")
+		bool bKeepArrowScale = true;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Arrow Settings")
+		FVector ArrowScale = { 1.0,1.0,1.0 };
 	UFUNCTION(BlueprintCallable)
 		void ReleaseArrow(USceneComponent* HandComp, float DrawVal);
 	UFUNCTION(BlueprintCallable)
-		void AttachBow(USkeletalMeshComponent* HandMesh, FName SocketName,bool bIsLeft);
+		void AttachBow(USkeletalMeshComponent* HandMesh, FName SocketName,FRotator BowRotation);
 	UFUNCTION(BlueprintCallable)
 		void DetachBow();
 };
