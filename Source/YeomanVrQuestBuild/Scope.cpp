@@ -1,7 +1,7 @@
 // By OwenAtkinson
-
-#include "Components/SceneCaptureComponent2D.h"
 #include "Scope.h"
+#include "Components/SceneCaptureComponent2D.h"
+
 
 // Sets default values
 AScope::AScope()

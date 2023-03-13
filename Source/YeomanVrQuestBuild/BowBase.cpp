@@ -1,6 +1,7 @@
 // By OwenAtkinson
-#include "ArrowBasic.h"
 #include "BowBase.h"
+#include "ArrowBasic.h"
+
 
 // Sets default values
 ABowBase::ABowBase()

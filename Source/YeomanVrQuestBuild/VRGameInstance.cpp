@@ -1,7 +1,7 @@
 // By OwenAtkinson
-
-#include "Kismet/GameplayStatics.h"
 #include "VRGameInstance.h"
+#include "Kismet/GameplayStatics.h"
+
 
 void UVRGameInstance::Init()
 {
