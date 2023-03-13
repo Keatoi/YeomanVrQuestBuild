@@ -134,4 +134,24 @@ void ASkeletalBow::DetachBow()
 	BowSkeleton->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 	
 }
+float ASkeletalBow::GetSkeletalDrawLength(FVector HandLoc)
+{
+
+	//Get the Tranform of the string idle socket and the location of the mc component, and then inverse transform its location.
+
+	FTransform IdleTransform = BowSkeleton->GetSocketTransform("StringIdle", RTS_World);
+
+	FVector TransformedLoc = UKismetMathLibrary::InverseTransformLocation(IdleTransform, HandLoc);
+	float value = TransformedLoc.X;
+	float DrawLen = UKismetMathLibrary::MapRangeClamped(value, MinDrawLength, MaxDrawLength,0,1);
+	return DrawLen;
+}
+
+float ASkeletalBow::GetDrawValue()
+{
+	float value = ForceCurve->GetFloatValue(DrawLength);
+	float DrawValue = UKismetMathLibrary::MapRangeClamped(value, 0,1,MinDrawValue, MaxDrawValue );
+	return DrawValue;
+
+}
 

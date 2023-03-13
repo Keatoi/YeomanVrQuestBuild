@@ -25,7 +25,8 @@ AArrowBasic::AArrowBasic()
 	ArrowSphere->SetRelativeLocation(FVector{ 68,0,0 });
 	IdleMaterial = CreateDefaultSubobject<UMaterial>(TEXT("IdleMaterial"));
 	MovementMaterial = CreateDefaultSubobject<UMaterial>(TEXT("MovementMaterial"));
-	
+	GameModeRef = Cast<AYeomanVrQuestBuildGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
+
 	if (!ProjMovement)
 	{
 		ProjMovement = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("MovementComponent"));
@@ -118,15 +119,12 @@ void AArrowBasic::Tick(float DeltaTime)
 void AArrowBasic::ReleaseArrow_Implementation(float DrawLength, int DrawWeight, float AdditionalWeight)
 {
 	
-	UE_LOG(LogTemp, Warning, TEXT("Called Arrow Imp"));
 	
-	//ProjMovement->Activate();
-	UE_LOG(LogTemp, Warning, TEXT("Draw Val is : %f"), DrawLength);
 	//Calculating the velocity of the arrow. This uses the equation v = IBO + (L-30) * 10 - W/3 + min(0,-(A-5D/3).
 	
-	//IBO + (DrawLength - 30) * 10 - AdditionalWeight / 3 + std::min(0, -(AW - (5 * DrawWeight) / 3));
+	//IBO + (DrawLength - 30) * 10 - AdditionalWeight / 3 + std::min(0, -(AW - (5 * DrawWeight) / 3)); Doesn't work, is a conversion issue I think, to save time I have made an equation that approximates the effect draw weifht and such has on sppped.
 	SpawnPos = GetActorLocation();
-	Velo = (this->GetActorForwardVector() * DrawLength);
+	Velo = (this->GetActorForwardVector() * (DrawLength * (DrawWeight / 10) - AdditionalWeight));
 	UE_LOG(LogTemp, Warning, TEXT("Velo is : %s"), *Velo.ToString());
 	
 	ProjMovement->Velocity = Velo;
@@ -165,7 +163,11 @@ void AArrowBasic::ApplyDrag(float DeltaTime, float Drag)
 
 void AArrowBasic::ApplyWind(FVector Wind)
 {
-	WindToApply = WindToApply + Wind;
+	if (GameModeRef->bWindEnabled)
+	{
+		WindToApply = WindToApply + Wind;
+	}
+	
 }
 
 

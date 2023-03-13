@@ -73,7 +73,7 @@ public:
 	UPROPERTY(BlueprintReadWrite, Category = "Competition Settings")
 		bool bGameOver = false;
 	UPROPERTY(BlueprintReadWrite, Category = "Competition Settings")
-		bool bCompetitiveMode = true;
+		bool bCompetitiveMode = false;
 	UPROPERTY(BlueprintReadWrite, Category = "Competition Settings")
 	FTimerHandle ScoreTimer;
 	UPROPERTY(BlueprintReadWrite, Category = "Competition Settings")
@@ -92,5 +92,9 @@ public:
 		void StartScoreTimer();
 	UFUNCTION(BlueprintCallable)
 		void Timeout();
+	UFUNCTION(BlueprintCallable)
+		void GameOver();
+private:
+	class UVRGameInstance* GameInstRef;
 	
 };

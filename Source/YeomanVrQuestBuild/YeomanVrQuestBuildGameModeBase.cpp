@@ -2,6 +2,9 @@
 
 
 #include "YeomanVrQuestBuildGameModeBase.h"
+#include "VRGameInstance.h"
+#include "Engine.h"
+#include "VRSaveGame.h"
 
 void AYeomanVrQuestBuildGameModeBase::BeginPlay()
 {
@@ -11,6 +14,7 @@ void AYeomanVrQuestBuildGameModeBase::BeginPlay()
 	{
 		GetWorldTimerManager().SetTimer(ScoreTimer, this, &AYeomanVrQuestBuildGameModeBase::StartScoreTimer, 5.0f, false);
 	}
+	GameInstRef = Cast<UVRGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 }
 
 float AYeomanVrQuestBuildGameModeBase::WindSpeedtoUU()
@@ -135,4 +139,13 @@ void AYeomanVrQuestBuildGameModeBase::Timeout()
 	}
 	
 	StartScoreTimer();
+}
+
+void AYeomanVrQuestBuildGameModeBase::GameOver()
+{
+	if (GameInstRef)
+	{
+		GameInstRef->SaveData(EndScore);
+		
+	}
 }

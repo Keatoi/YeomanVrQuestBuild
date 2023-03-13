@@ -12,7 +12,8 @@ void UVRGameInstance::Init()
 	{
 		//if no data make a new one.
 		Data = Cast<UVRSaveGame>(UGameplayStatics::CreateSaveGameObject(UVRSaveGame::StaticClass()));
-		Data->ScorePB = 0;//equal to 0 until scoring is actually implemented.
+		Data->PBScore = 0;
+		
 		UGameplayStatics::SaveGameToSlot(Data, SaveName, 0);//Save score into the save slot
 		
 	}
@@ -22,7 +23,10 @@ void UVRGameInstance::SaveData(int Score)
 {
 	if (Data)
 	{
-		Data->ScorePB = Score;
+		if (Data->PBScore < Score)
+		{
+			Data->PBScore = Score;
+		}
 		UGameplayStatics::SaveGameToSlot(Data, SaveName, 0);
 	}
 }

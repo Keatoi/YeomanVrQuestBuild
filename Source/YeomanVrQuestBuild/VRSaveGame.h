@@ -1,7 +1,7 @@
 // By OwenAtkinson
 
 #pragma once
-
+#include "StructsFile.h"
 #include "CoreMinimal.h"
 #include "GameFramework/SaveGame.h"
 #include "VRSaveGame.generated.h"
@@ -14,8 +14,10 @@ class YEOMANVRQUESTBUILD_API UVRSaveGame : public USaveGame
 {
 	GENERATED_BODY()
 public:
-		UPROPERTY()
-		int ScorePB;//Highest score player has attained to date
+	UPROPERTY(EditAnywhere)
+		TArray<FSaveStruct> SaveArray;
+	UPROPERTY(EditAnywhere)
+		int PBScore;
 		
 		
 };

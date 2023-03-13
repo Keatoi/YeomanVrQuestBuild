@@ -1,6 +1,7 @@
 // By OwenAtkinson
 
 #pragma once
+#include "Kismet/KismetMathLibrary.h"
 #include "Curves/CurveFloat.h"
 #include "Components/TimelineComponent.h"
 #include "ArrowBasic.h"
@@ -60,11 +61,25 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Arrow Settings")
 		bool bKeepArrowScale = true;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Arrow Settings")
+		float MinDrawValue;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Arrow Settings")
+		float MaxDrawValue;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Arrow Settings")
+		float MaxDrawLength;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Arrow Settings")
+		float MinDrawLength;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Arrow Settings")
 		FVector ArrowScale = { 1.0,1.0,1.0 };
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Arrow Settings")
+		UCurveFloat* ForceCurve;
 	UFUNCTION(BlueprintCallable)
 		void ReleaseArrow(USceneComponent* HandComp, float DrawVal);
 	UFUNCTION(BlueprintCallable)
 		void AttachBow(USkeletalMeshComponent* HandMesh, FName SocketName,FRotator BowRotation);
 	UFUNCTION(BlueprintCallable)
 		void DetachBow();
+	UFUNCTION(BlueprintCallable)
+	float GetSkeletalDrawLength(FVector HandLoc);
+	UFUNCTION(BlueprintCallable)
+		float GetDrawValue();
 };

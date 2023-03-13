@@ -16,13 +16,13 @@ class YEOMANVRQUESTBUILD_API ASkeletalCompoundBow : public ASkeletalBow
 	GENERATED_BODY()
 public:
 	UFUNCTION(BlueprintPure,meta = (DisplayName = "Calculate DrawLength",CompactNodeTitle = "GetDrawLength", Keywords = "Draw Length"),Category = "Archery Maths")
-		float GetDrawLength(FVector HandLoc);
+		float GetCompoundDrawLength(FVector HandLoc);
 	UFUNCTION(BlueprintPure, meta = (DisplayName = "Calculate DrawValue", CompactNodeTitle = "GetDrawValue", Keywords = "Draw Value"), Category = "Archery Maths")
-		float GetDrawValue(float DrawLen);
+		float GetCompoundDrawValue();
 	UPROPERTY(BlueprintReadWrite, category = "Draw Values")
-		float MinDrawValue = 0.0f;
+		float MinimumDrawValue = 0.0f;
 	UPROPERTY(BlueprintReadWrite, category = "Draw Values")
-		float MaxDrawValue = 8700.0f;
+		float MaximumDrawValue = 8700.0f;
 
 	
 };

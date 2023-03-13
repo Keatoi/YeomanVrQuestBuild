@@ -3,7 +3,7 @@
 
 #include "SkeletalCompoundBow.h"
 
-float ASkeletalCompoundBow::GetDrawLength(FVector HandLoc)
+float ASkeletalCompoundBow::GetCompoundDrawLength(FVector HandLoc)
 {
 	
 		//Get the Tranform of the string idle socket and the location of the mc component, and then inverse transform its location.
@@ -20,9 +20,10 @@ float ASkeletalCompoundBow::GetDrawLength(FVector HandLoc)
 	
 }
 
-float ASkeletalCompoundBow::GetDrawValue(float DrawLen)
+float ASkeletalCompoundBow::GetCompoundDrawValue()
 {
-	float DrawValue = UKismetMathLibrary::MapRangeClamped(DrawLen,0, 1, MinDrawValue, MaxDrawValue);
+	float value = ForceCurve->GetFloatValue(DrawLength);
+	float DrawValue = UKismetMathLibrary::MapRangeClamped(value,0, 1, MinimumDrawValue, MaximumDrawValue);
 	return DrawValue;
 		
 }

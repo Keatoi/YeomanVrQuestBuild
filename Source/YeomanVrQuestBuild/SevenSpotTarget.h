@@ -1,9 +1,9 @@
 // By OwenAtkinson
 
 #pragma once
-#include "VrCompetitiveGameMode.h"
+
 #include "ArrowBasic.h"
-#include "Components/TextRenderComponent.h"
+
 #include "Kismet/GameplayStatics.h"
 #include "YeomanVrQuestBuildGameModeBase.h"
 #include "CoreMinimal.h"
@@ -49,10 +49,7 @@ public:
 		UStaticMeshComponent* InnerWhiteMesh;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 		UStaticMeshComponent* OuterWhiteMesh;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		 FName MapToLoad;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		UTextRenderComponent* TXTMapName;
+	
 	
 	UPROPERTY()
 		AYeomanVrQuestBuildGameModeBase* GameModeRef;
@@ -60,8 +57,6 @@ public:
 	UFUNCTION()
 		void OnTargetHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpulse,
 			const FHitResult& Hit);
-	UFUNCTION()
-		void OpenLevel(AActor* SelfActor, AActor* OtherActor, FVector NormalImpulse,
-			const FHitResult& Hit);
+
 };
 
